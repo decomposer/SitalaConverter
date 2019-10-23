@@ -5,7 +5,7 @@ ADGReader::ADGReader(const File &source) :
 {
 }
 
-std::vector<String> ADGReader::getContainSamplePaths()
+std::vector<File> ADGReader::getContainSamplePaths()
 {
     jassert(m_source.exists());
 
@@ -80,7 +80,7 @@ void ADGReader::processSampleRef(XmlElement *sampleRef)
             path += name;
         }
 
-        DBG(path);
-        m_samples.push_back(path);
+        auto file = m_source.getChildFile(String("../") + path);
+        m_samples.push_back(file);
     }
 }

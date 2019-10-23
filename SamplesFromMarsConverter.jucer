@@ -7,6 +7,10 @@
       <FILE id="cEOl6T" name="ADGReader.cpp" compile="1" resource="0" file="Source/ADGReader.cpp"/>
       <FILE id="kjRE6s" name="ADGReader.h" compile="0" resource="0" file="Source/ADGReader.h"/>
       <FILE id="srxVzO" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="lZYpox" name="SitalaKitGenerator.cpp" compile="1" resource="0"
+            file="Source/SitalaKitGenerator.cpp"/>
+      <FILE id="oBSKll" name="SitalaKitGenerator.h" compile="0" resource="0"
+            file="Source/SitalaKitGenerator.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
