@@ -3,9 +3,22 @@
 #include "ADGReader.h"
 #include "SitalaKitGenerator.h"
 
-int main (int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-    ADGReader reader(File("/Users/luci/Projects/music/Samples From Mars/Modern Oddities From Mars/Ableton Live/Modern Oddities From Mars/Presets/Kits/Hardware Glitch Kit.adg"));
+    if(argc != 3)
+    {
+        DBG("Usage: SamplesFromMarsConverter [ADG-File] [Sitala-File]");
+        return -1;
+    }
+
+    File adgFile(argv[1]);
+    if(!adgFile.exists())
+    {
+        DBG("ADG file not found");
+        return -1;
+    }
+
+    ADGReader reader(adgFile);
     const auto files = reader.getContainSamplePaths();
     for(auto file : files)
     {
@@ -14,12 +27,9 @@ int main (int argc, char* argv[])
             DBG("File " << file.getFullPathName() << " doesn't exist");
             return -1;
         }
-
-//        DBG(file.getFullPathName());
     }
 
-    SitalaKitGenerator generator(File("/Users/luci/Projects/music/Samples From Mars/Modern Oddities From Mars/Sitala/Hardware Glitch Kit.sitala"),
-                       files);
+    SitalaKitGenerator generator(File(argv[2]), files);
 
     if(!generator.run())
     {
