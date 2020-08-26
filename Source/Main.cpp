@@ -7,11 +7,11 @@
 
 bool createKit(const String &output, std::vector<File> files, int offset = 0)
 {
+    // DBG("createKit " << output << ", offset: " << offset);
     auto begin = files.begin();
     auto end = files.size() - offset <= 16 ? files.end() : files.begin() + offset + 16;
-    std::vector<File> slice;
+    std::vector<File> slice(begin, end);
 
-    std::copy(begin, end, slice.begin());
     files = slice;
 
     for(auto file : files)
@@ -40,9 +40,12 @@ int main(int argc, const char *argv[])
 {
     if(argc == 2)
     {
-        DBG(argv[1] << ": "
-            << ADGReader(File(argv[1])).getContainSamplePaths().size()
-            << " samples");
+        auto files = ADGReader(File(argv[1])).getContainSamplePaths();
+        DBG(argv[1] << ": " << files.size() << " samples");
+        for(auto file : files)
+        {
+            DBG(file.getRelativePathFrom(File::getCurrentWorkingDirectory()));
+        }
         return 0;
     }
 
@@ -72,9 +75,14 @@ int main(int argc, const char *argv[])
         {
             DBG("Splitting ADG into multiple kits");
 
-            for(auto i = 0; i < files.size(); i += 16)
+            for(auto i = 0; i * 16 < files.size(); i++)
             {
-                createKit(output << " - " << i, files, i * 16);
+                String extension = " - ";
+                extension += i + 1;
+                extension += ".sitala";
+
+                auto sequence = output.replace(".sitala", extension);
+                createKit(sequence, files, i * 16);
             }
         }
         else
