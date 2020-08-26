@@ -8,7 +8,7 @@
 bool createKit(const String &output, std::vector<File> files, int offset = 0)
 {
     // DBG("createKit " << output << ", offset: " << offset);
-    auto begin = files.begin();
+    auto begin = files.begin() + offset;
     auto end = files.size() - offset <= 16 ? files.end() : files.begin() + offset + 16;
     std::vector<File> slice(begin, end);
 
