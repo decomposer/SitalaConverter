@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 
     if(!generator.run())
     {
-        DBG("Error generating kit");
+        DBG("Error generating kit: " << argv[2]);
         return 5;
     }
 
