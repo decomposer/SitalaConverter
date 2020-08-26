@@ -3,6 +3,7 @@
 require 'fileutils'
 
 Dir.glob("*/Ableton Live/**/*Kits/*.adg").each do |kit|
+  kit = File.expand_path(kit)
   sitala_kit = kit.sub('/Ableton Live/', '/Sitala/')
                   .sub(/\/Presets\/[\d\. ]*Kits\//, '/')
                   .sub(/.adg$/, '.sitala')
