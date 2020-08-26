@@ -20,31 +20,32 @@ std::vector<File> ADGReader::getContainSamplePaths()
     XmlDocument doc(str);
     std::unique_ptr<XmlElement> root(doc.getDocumentElement());
 
-    findSampleRef(root.get());
+    processElements(root.get(), "SampleRef", [this](const XmlElement *e) {
+        processSampleRef(e);
+    });
 
     jassert(root);
 
     return m_samples;
 }
 
-XmlElement *ADGReader::findSampleRef(XmlElement *parent)
+void ADGReader::processElements(const XmlElement *parent, const String &tag,
+                                const std::function<void(const XmlElement *)> &processor)
 {
-    if(parent->getTagName() == "SampleRef")
+    if(parent->getTagName() == tag)
     {
-        processSampleRef(parent);
-        return parent;
+        processor(parent);
+        return;
     }
 
     for(auto i = 0; i < parent->getNumChildElements(); i++)
     {
         auto child = parent->getChildElement(i);
-        findSampleRef(child);
+        processElements(child, tag, processor);
     }
-
-    return nullptr;
 }
 
-void ADGReader::processSampleRef(XmlElement *sampleRef)
+void ADGReader::processSampleRef(const XmlElement *sampleRef)
 {
     auto fileRef = sampleRef->getChildByName("FileRef");
     if(fileRef)

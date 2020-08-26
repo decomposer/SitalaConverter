@@ -10,9 +10,12 @@ public:
     std::vector<File> getContainSamplePaths();
 
 private:
-    XmlElement *findSampleRef(XmlElement *parent);
-    void processSampleRef(XmlElement *sampleRef);
+    void processElements(const XmlElement *parent, const String &tag,
+                         const std::function<void(const XmlElement *)> &processor);
+
+    void processSampleRef(const XmlElement *sampleRef);
 
     File m_source;
     std::vector<File> m_samples;
+    std::vector<int> m_notes;
 };
