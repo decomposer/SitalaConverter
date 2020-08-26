@@ -26,7 +26,18 @@ std::vector<File> ADGReader::getContainSamplePaths()
         processSampleRef(e, samples);
     });
 
-    jassert(root);
+    std::map<int, File> sorted;
+
+    processElements(root.get(), "ReceivingNote", [this, &samples, &sorted](const XmlElement *e) {
+        sorted[128 - e->getIntAttribute("Value")] = samples[sorted.size()];
+    });
+
+    samples.clear();
+
+    for(auto [note, sample] : sorted)
+    {
+        samples.push_back(sample);
+    }
 
     return samples;
 }
