@@ -93,7 +93,7 @@ int main(int argc, const char *argv[])
     }
     else
     {
-        createKit(input, files);
+        createKit(output, files);
     }
 
     return 0;
