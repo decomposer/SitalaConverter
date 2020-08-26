@@ -133,6 +133,10 @@ bool SitalaKitGenerator::run()
     fileBuilder.addEntry(in, 0, "kit1.xml", Time());
 
     FileOutputStream zipOut(m_destination);
+
+    zipOut.setPosition (0);
+    zipOut.truncate();
+
     fileBuilder.writeToStream(zipOut, nullptr);
 
     return true;
