@@ -3,15 +3,60 @@
 #include "ADGReader.h"
 #include "SitalaKitGenerator.h"
 
-int main(int argc, char* argv[])
+#include <algorithm>
+
+bool createKit(const String &output, std::vector<File> files, int offset = 0)
 {
+    auto begin = files.begin();
+    auto end = files.size() - offset <= 16 ? files.end() : files.begin() + offset + 16;
+    std::vector<File> slice;
+
+    std::copy(begin, end, slice.begin());
+    files = slice;
+
+    for(auto file : files)
+    {
+        if(!file.exists())
+        {
+            DBG("File " << file.getFullPathName() << " doesn't exist");
+            return false;
+        }
+    }
+
+    SitalaKitGenerator generator(output, files);
+
+    if(!generator.run())
+    {
+        DBG("Error generating kit: " << output);
+        return false;
+    }
+
+    DBG("Created: " << output);
+
+    return true;
+}
+
+int main(int argc, const char *argv[])
+{
+    if(argc == 2)
+    {
+        DBG(argv[1] << ": "
+            << ADGReader(File(argv[1])).getContainSamplePaths().size()
+            << " samples");
+        return 0;
+    }
+
     if(argc != 3)
     {
         DBG("Usage: SamplesFromMarsConverter [ADG-File] [Sitala-File]");
         return 1;
     }
 
-    File adgFile(argv[1]);
+    String input(argv[1]);
+    String output(argv[2]);
+
+    File adgFile(input);
+
     if(!adgFile.exists())
     {
         DBG("ADG file not found");
@@ -23,28 +68,25 @@ int main(int argc, char* argv[])
 
     if(files.size() > 16)
     {
-        DBG("Too many samples (" << files.size() << "): " << argv[1]);
-        return 3;
-    }
-
-    for(auto file : files)
-    {
-        if(!file.exists())
+        if(files.size() % 16 == 0)
         {
-            DBG("File " << file.getFullPathName() << " doesn't exist");
-            return 4;
+            DBG("Splitting ADG into multiple kits");
+
+            for(auto i = 0; i < files.size(); i += 16)
+            {
+                createKit(output << " - " << i, files, i * 16);
+            }
+        }
+        else
+        {
+            DBG("Too many samples (" << files.size() << "): " << argv[1]);
+            return 3;
         }
     }
-
-    SitalaKitGenerator generator(File(argv[2]), files);
-
-    if(!generator.run())
+    else
     {
-        DBG("Error generating kit: " << argv[2]);
-        return 5;
+        createKit(input, files);
     }
-
-    DBG("Created: " << argv[2]);
 
     return 0;
 }
