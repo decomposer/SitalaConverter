@@ -20,13 +20,15 @@ std::vector<File> ADGReader::getContainSamplePaths()
     XmlDocument doc(str);
     std::unique_ptr<XmlElement> root(doc.getDocumentElement());
 
-    processElements(root.get(), "SampleRef", [this](const XmlElement *e) {
-        processSampleRef(e);
+    std::vector<File> samples;
+
+    processElements(root.get(), "SampleRef", [this, &samples](const XmlElement *e) {
+        processSampleRef(e, samples);
     });
 
     jassert(root);
 
-    return m_samples;
+    return samples;
 }
 
 void ADGReader::processElements(const XmlElement *parent, const String &tag,
@@ -45,7 +47,7 @@ void ADGReader::processElements(const XmlElement *parent, const String &tag,
     }
 }
 
-void ADGReader::processSampleRef(const XmlElement *sampleRef)
+void ADGReader::processSampleRef(const XmlElement *sampleRef, std::vector<File> &samples)
 {
     auto fileRef = sampleRef->getChildByName("FileRef");
     if(fileRef)
@@ -82,6 +84,6 @@ void ADGReader::processSampleRef(const XmlElement *sampleRef)
         }
 
         auto file = m_source.getChildFile(String("../") + path);
-        m_samples.push_back(file);
+        samples.push_back(file);
     }
 }

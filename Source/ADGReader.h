@@ -13,9 +13,7 @@ private:
     void processElements(const XmlElement *parent, const String &tag,
                          const std::function<void(const XmlElement *)> &processor);
 
-    void processSampleRef(const XmlElement *sampleRef);
+    void processSampleRef(const XmlElement *sampleRef, std::vector<File> &samples);
 
     File m_source;
-    std::vector<File> m_samples;
-    std::vector<int> m_notes;
 };
