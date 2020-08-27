@@ -1,0 +1,119 @@
+# CR78
+../../../WAV/Kits/CR78/BD CR78 MPC60 05.wav
+../../../WAV/Kits/CR78/Rim Tone MPC60 09.wav
+../../../WAV/Kits/CR78/Conga CR78 Hi MPC60 17.wav
+../../../WAV/Kits/CR78/CH CR78 B MPC60 07.wav
+../../../WAV/Kits/CR78/BD CR78 Verb MPC60 02.wav
+../../../WAV/Kits/CR78/Snare CR78 MPC60 13.wav
+../../../WAV/Kits/CR78/Snare CR78 Verb MPC60 07.wav
+../../../WAV/Kits/CR78/OH CR78 A MPC60 13.wav
+../../../WAV/Kits/CR78/Cowbell CR78 MPC60 02.wav
+../../../WAV/Kits/CR78/Snare CR78 MPC60 08.wav
+../../../WAV/Kits/CR78/Tone CR78 Verb MPC60 02.wav
+../../../WAV/Kits/CR78/OH CR78 B MPC60 09.wav
+../../../WAV/Kits/CR78/Clave CR78 MPC60 10.wav
+../../../WAV/Kits/CR78/Clave CR78 Verb MPC60 02.wav
+../../../WAV/Kits/CR78/Clave CR78 Flam MPC60 05.wav
+../../../WAV/Kits/CR78/Conga CR78 Lo MPC60 01.wav
+# Dirty Club
+../../../WAV/Kits/Dirty Club/BD Club Dirt MPC60 06.wav
+../../../WAV/Kits/Dirty Club/BD Club Overtone MPC60 02.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 05.wav
+../../../WAV/Kits/Dirty Club/CH Crisp MPC60 01.wav
+../../../WAV/Kits/Dirty Club/BD Club Snap MPC60 06.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 10.wav
+../../../WAV/Kits/Real Crunchy/Snare 909 MPC60 04.wav
+../../../WAV/Kits/Dirty Club/CH 909 B MPC60 19.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 06.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 09.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 12.wav
+../../../WAV/Kits/Dirty Club/OH 909 B MPC60 10.wav
+../../../WAV/Kits/Dirty Club/Tom 909 MPC60 12.wav
+../../../WAV/Kits/Dirty Club/Tom 909 MPC60 01.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 07.wav
+../../../WAV/Kits/Dirty Club/Tambo Lo MPC60 19.wav
+# Machines 1
+../../../WAV/Kits/Machines 1/BD PO MPC60 11.wav
+../../../WAV/Kits/Machines 1/BD 606 Punch B MPC60 06.wav
+../../../WAV/Kits/Machines 1/Snare 101 MPC60 07.wav
+../../../WAV/Kits/Machines 1/Tambo Hi MPC60 15.wav
+../../../WAV/Kits/Machines 1/BD PO Filt MPC60 12.wav
+../../../WAV/Kits/Machines 1/Snare Arp Noise C MPC60 10.wav
+../../../WAV/Kits/Machines 1/Snare 606 C MPC60 01.wav
+../../../WAV/Kits/Machines 1/OH SP Dirt MPC60 13.wav
+../../../WAV/Kits/Machines 1/BD 606 Punch A MPC60 12.wav
+../../../WAV/Kits/Machines 1/Snare 606 A MPC60 04.wav
+../../../WAV/Kits/Machines 1/Snare 606 B MPC60 04.wav
+../../../WAV/Kits/Machines 1/OH SP Trash MPC60 13.wav
+../../../WAV/Kits/Machines 1/Tom SP Mid MPC60 10.wav
+../../../WAV/Kits/Machines 1/Tom SP Lo MPC60 10.wav
+../../../WAV/Kits/Machines 1/Crash Dark 707 MPC60 17.wav
+../../../WAV/Kits/Machines 1/Crash SP MPC60 10.wav
+# Machines 2
+../../../WAV/Kits/Machines 2/BD Club Dust B MPC60 09.wav
+../../../WAV/Kits/Machines 2/BD 909 Sat MPC60 01.wav
+../../../WAV/Kits/Machines 2/Snare 606 F MPC60 04.wav
+../../../WAV/Kits/Machines 2/CH Crisp MPC60 07.wav
+../../../WAV/Kits/Machines 2/BD Growl MPC60 09.wav
+../../../WAV/Kits/Machines 2/Snare Nice Room MPC60 16.wav
+../../../WAV/Kits/Machines 2/Clap Snap MPC60 10.wav
+../../../WAV/Kits/Machines 2/OH 909 Color MPC60 10.wav
+../../../WAV/Kits/Machines 2/Laser Arp A MPC60 10.wav
+../../../WAV/Kits/Machines 2/Laser Arp B MPC60 10.wav
+../../../WAV/Kits/Machines 2/Ride 909 A MPC60 10.wav
+../../../WAV/Kits/Machines 2/CH 808 Grit MPC60 16.wav
+../../../WAV/Kits/Machines 2/Crash 707 Dark MPC60 15.wav
+../../../WAV/Kits/Machines 2/Laser Vinyl MPC60 09.wav
+../../../WAV/Kits/Machines 2/OH Rhythm MPC60 11.wav
+../../../WAV/Kits/Machines 2/OH 808 MPC60 16.wav
+# Real Crunchy
+../../../WAV/Kits/Real Crunchy/BD Club Classic MPC60 11.wav
+../../../WAV/Kits/Real Crunchy/BD Air Crunchy MPC60 12.wav
+../../../WAV/Kits/Real Crunchy/Snare Piccolo Crack MPC60 08.wav
+../../../WAV/Kits/Real Crunchy/CH 909 A MPC60 07.wav
+../../../WAV/Kits/Real Crunchy/BD Club Pressure MPC60 11.wav
+../../../WAV/Kits/Real Crunchy/Snare Wood B MPC60 05.wav
+../../../WAV/Kits/Real Crunchy/Snare 909 MPC60 06.wav
+../../../WAV/Kits/Real Crunchy/CH Rough Vinyl MPC60 07.wav
+../../../WAV/Kits/Real Crunchy/Snare Disco Tone MPC60 03.wav
+../../../WAV/Kits/Dirty Club/Snare 909 MPC60 04.wav
+../../../WAV/Kits/Real Crunchy/Tom 606 Lo MPC60 01.wav
+../../../WAV/Kits/Real Crunchy/OH 606 A MPC60 11.wav
+../../../WAV/Kits/Real Crunchy/Snare Piccolo Crack MPC60 09.wav
+../../../WAV/Kits/Real Crunchy/Tom SP Lo MPC60 10.wav
+../../../WAV/Kits/Real Crunchy/Snare Rim MPC60 02.wav
+../../../WAV/Kits/Real Crunchy/Snare Wood Tail Short MPC60 13.wav
+# Real Crunchy 2
+../../../WAV/Kits/Real Crunchy 2/BD Club Dust A MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/BD Air Dirt MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/BD Club Afters MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/CH Rough Vinyl MPC60 12.wav
+../../../WAV/Kits/Real Crunchy 2/BD Air Crunchy MPC60 08.wav
+../../../WAV/Kits/Real Crunchy 2/Snare Nice Room MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/Snare Disco Tone MPC60 19.wav
+../../../WAV/Kits/Real Crunchy 2/OH Club A MPC60 07.wav
+../../../WAV/Kits/Real Crunchy 2/BD Club Classic MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/Clap Old Verb MPC60 17.wav
+../../../WAV/Kits/Real Crunchy 2/Clap Crackle Piercing MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/Clap Prelude MPC60 14.wav
+../../../WAV/Kits/Real Crunchy 2/Tom Empty MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 2/Tom Empty MPC60 04.wav
+../../../WAV/Kits/Real Crunchy 2/Perc Vinyl Blip MPC60 01.wav
+../../../WAV/Kits/Real Crunchy 2/Block Vinyl MPC60 10.wav
+# Real Crunchy 3
+../../../WAV/Kits/Real Crunchy 3/BD Club Snap MPC60 04.wav
+../../../WAV/Kits/Real Crunchy 3/BD Club Overtone MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Room MPC60 13.wav
+../../../WAV/Kits/Machines 2/CH Crisp MPC60 07.wav
+../../../WAV/Kits/Real Crunchy 3/BD Club Snap MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Rim MPC60 15.wav
+../../../WAV/Kits/Real Crunchy 3/CH Thin Tail MPC60 11.wav
+../../../WAV/Kits/Real Crunchy 3/CH Tambo MPC60 15.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Wood Tail Long MPC60 12.wav
+../../../WAV/Kits/Real Crunchy 3/Rim Hard MPC60 13.wav
+../../../WAV/Kits/Real Crunchy 3/OH Club B MPC60 02.wav
+../../../WAV/Kits/Real Crunchy 3/OH Short B MPC60 06.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Tail Crackle Short MPC60 07.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Wood A MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 3/Snare Wood B MPC60 10.wav
+../../../WAV/Kits/Real Crunchy 3/OH Short HP MPC60 06.wav

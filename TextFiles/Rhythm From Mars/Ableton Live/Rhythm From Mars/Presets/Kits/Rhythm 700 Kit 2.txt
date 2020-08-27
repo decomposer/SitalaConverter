@@ -1,0 +1,16 @@
+../../../../WAV/Individual Hits/Rhythm 700/Kick/Clean/Kick_Cowb_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Snare/Snare_Hi_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Snare/Snare_Hi_Bright_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Snare/Snare_OH_Clean_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/CH/CH_2_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/CH/CH_3_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/CH/CH_4_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/OH/OH_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Perc/Cowb_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Perc/Bell_Metal_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Perc/Tambo_Clean_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Tom/Tom_Combo_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Tom/Tom_Mid_Soft_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Tom/Tom_Bell_Combo_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Tom/Tom_Bell_Combo_2_RHYTHM.wav
+../../../../WAV/Individual Hits/Rhythm 700/Tom/Tom_Bell_Combo_3_RHYTHM.wav

@@ -1,0 +1,16 @@
+../../Samples/Imported/09Kick_SDSV_Short_C1.wav
+../../Samples/Imported/14Kick_SDSV_Long_F1.wav
+../../Samples/Imported/HH_SDSV_E3.wav
+../../Samples/Imported/HH_SDSV_Hi_C10.wav
+../../Samples/Imported/Kick_SDSV_Bend_Short_B13-1.wav
+../../Samples/Imported/Noise_Cym_SDSV_B11-1.wav
+../../Samples/Imported/Noise_SDSV_Hi36-1.wav
+../../Samples/Imported/Noise_SDSV_Lo2-1.wav
+../../Samples/Imported/Snare_SDSV_41-1.wav
+../../Samples/Imported/Snare_SDSV_Hi42-1.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_Hi_A6.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_Hi_A10.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_I1.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_I7.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_I14.wav
+../../Samples/Imported/Tom_SDSV_Bend_Short_I19.wav

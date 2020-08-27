@@ -1,0 +1,16 @@
+../../Samples/Imported/09_Tom_SDSV_Sat_C1-1.wav
+../../Samples/Imported/11_Tom_SDSV_Hi_C2-1.wav
+../../Samples/Imported/14_Tom_SDSV_F1-1.wav
+../../Samples/Imported/14_Tom_SDSV_Hi_D#2-1.wav
+../../Samples/Imported/19_Tom_SDSV_Sat_A#1-1.wav
+../../Samples/Imported/21_Tom_SDSV_Sat_C2-1.wav
+../../Samples/Imported/26_Tom_SDSV_F2-1.wav
+../../Samples/Imported/26_Tom_SDSV_Sat_F2-1.wav
+../../Samples/Imported/29_Tom_SDSV_Sat_G#2-1.wav
+../../Samples/Imported/31_Tom_SDSV_A#2-1.wav
+../../Samples/Imported/33_Tom_SDSV_C3-1.wav
+../../Samples/Imported/33_Tom_SDSV_Hi_A#3-1.wav
+../../Samples/Imported/35_Tom_SDSV_Hi_C4-1.wav
+../../Samples/Imported/38_Tom_SDSV_F3-1.wav
+../../Samples/Imported/38_Tom_SDSV_Hi_D#4-1.wav
+../../Samples/Imported/40_Tom_SDSV_Hi_F4-1.wav
