@@ -36,33 +36,40 @@ bool createKit(const String &output, std::vector<File> files, int offset = 0)
     return true;
 }
 
-std::vector<std::vector<File>> filesFromTextFile(const File &textFile)
+std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
 {
-    std::vector<std::vector<File>> kits;
-    kits.push_back(std::vector<File>());
+    std::map<String, std::vector<File>> kits;
+    String name;
     FileInputStream stream(textFile);
 
     for(auto line = stream.readNextLine(); !stream.isExhausted(); line = stream.readNextLine())
     {
-        if(line.containsNonWhitespaceChars())
+        if(line.startsWithChar('#'))
         {
-            kits.back().push_back(File(line.trim()));
+            kits[name] = std::vector<File>();
+            name = line.replaceFirstOccurrenceOf("#", "").trim();
         }
         else
         {
-            kits.push_back(std::vector<File>());
+            kits[name].push_back(File(line.trim()));
         }
     }
 
+    kits[name] = std::vector<File>();
     return kits;
 }
 
-String sequencedKitName(const String &output, int i)
+String subKitName(const String &output, const String &subkit)
 {
+    if(subkit.isEmpty())
+    {
+        return output;
+    }
+
     String extension = " - ";
-    extension += i + 1;
+    extension += subkit;
     extension += ".sitala";
-    output.replace(".sitala", extension);
+    return output.replace(".sitala", extension);
 }
 
 int main(int argc, const char *argv[])
@@ -104,29 +111,26 @@ int main(int argc, const char *argv[])
     {
         auto kits = filesFromTextFile(textFile);
         DBG("Read " << kits.size() << " from " << textFile.getFullPathName());
-        for(auto i = 0; i < kits.size(); i++)
+        for(auto [name, files] : kits)
         {
-            auto &kit = kits[i];
-
-            if(kits.size() > 16)
+            if(files.size() > 16)
             {
-                DBG("Text group too large: " << kit.size());
+                DBG("Text group too large: " << files.size());
                 continue;
             }
 
-            auto name = kits.size() > 1 ? sequencedKitName(output, i) : output;
-            createKit(name, files);
+            createKit(subKitName(output, name), files);
         }
     }
     else if(files.size() > 16)
     {
         if(files.size() % 16 == 0)
         {
-            DBG("Splitting ADG into multiple kits");
+            DBG("Splitting ADG into multiple kits: " << input);
 
             for(auto i = 0; i * 16 < files.size(); i++)
             {
-                createKit(sequencedKitName(output, i), files, i * 16);
+                createKit(subKitName(output, String(i + 1)), files, i * 16);
             }
         }
         else
