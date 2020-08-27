@@ -2,7 +2,7 @@
 
 require 'fileutils'
 
-Dir.glob("*/Ableton*/**/**/*.adg").select { |k| k.include?('Kit') }.each do |kit|
+Dir.glob("*/Ableton*/**/**/*.adg").select { |k| k.include?('Kit') }.sort.each do |kit|
   path_components = kit.sub(/\/Ableton( Live){0,1}\//, '/Sitala/')
                       .sub(/.adg$/, '.sitala')
                       .split(File::SEPARATOR)
