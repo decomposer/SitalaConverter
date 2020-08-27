@@ -36,6 +36,35 @@ bool createKit(const String &output, std::vector<File> files, int offset = 0)
     return true;
 }
 
+std::vector<std::vector<File>> filesFromTextFile(const File &textFile)
+{
+    std::vector<std::vector<File>> kits;
+    kits.push_back(std::vector<File>());
+    FileInputStream stream(textFile);
+
+    for(auto line = stream.readNextLine(); !stream.isExhausted(); line = stream.readNextLine())
+    {
+        if(line.containsNonWhitespaceChars())
+        {
+            kits.back().push_back(File(line.trim()));
+        }
+        else
+        {
+            kits.push_back(std::vector<File>());
+        }
+    }
+
+    return kits;
+}
+
+String sequencedKitName(const String &output, int i)
+{
+    String extension = " - ";
+    extension += i + 1;
+    extension += ".sitala";
+    output.replace(".sitala", extension);
+}
+
 int main(int argc, const char *argv[])
 {
     if(argc == 2)
@@ -69,7 +98,27 @@ int main(int argc, const char *argv[])
     ADGReader reader(adgFile);
     const auto files = reader.getContainSamplePaths();
 
-    if(files.size() > 16)
+    File textFile(adgFile.getFullPathName().replace(".adg", ".txt"));
+
+    if(textFile.exists())
+    {
+        auto kits = filesFromTextFile(textFile);
+        DBG("Read " << kits.size() << " from " << textFile.getFullPathName());
+        for(auto i = 0; i < kits.size(); i++)
+        {
+            auto &kit = kits[i];
+
+            if(kits.size() > 16)
+            {
+                DBG("Text group too large: " << kit.size());
+                continue;
+            }
+
+            auto name = kits.size() > 1 ? sequencedKitName(output, i) : output;
+            createKit(name, files);
+        }
+    }
+    else if(files.size() > 16)
     {
         if(files.size() % 16 == 0)
         {
@@ -77,12 +126,7 @@ int main(int argc, const char *argv[])
 
             for(auto i = 0; i * 16 < files.size(); i++)
             {
-                String extension = " - ";
-                extension += i + 1;
-                extension += ".sitala";
-
-                auto sequence = output.replace(".sitala", extension);
-                createKit(sequence, files, i * 16);
+                createKit(sequencedKitName(output, i), files, i * 16);
             }
         }
         else
