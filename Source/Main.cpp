@@ -106,8 +106,24 @@ int main(int argc, const char *argv[])
     const auto files = reader.getContainSamplePaths();
 
     File textFile(adgFile.getFullPathName().replace(".adg", ".txt"));
+    StringArray names;
+    textFile.readLines(names);
 
-    if(textFile.exists())
+
+    for(auto &name : names)
+    {
+        if(!name.startsWithChar('#'))
+        {
+            names.clear();
+            break;
+        }
+        else
+        {
+            name = name.replaceFirstOccurrenceOf("#", "").trim();
+        }
+    }
+
+    if(names.isEmpty() && textFile.exists())
     {
         auto kits = filesFromTextFile(textFile);
         DBG("Read " << kits.size() << " from " << textFile.getFullPathName());
@@ -130,7 +146,8 @@ int main(int argc, const char *argv[])
 
             for(auto i = 0; i * 16 < files.size(); i++)
             {
-                createKit(subKitName(output, String(i + 1)), files, i * 16);
+                auto sub = names.size() > i ? names[i] : String(i + 1);
+                createKit(subKitName(output, sub), files, i * 16);
             }
         }
         else
