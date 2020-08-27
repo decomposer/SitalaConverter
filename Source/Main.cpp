@@ -5,7 +5,7 @@
 
 #include <algorithm>
 
-bool createKit(const String &output, std::vector<File> files, int offset = 0)
+static bool createKit(const String &output, std::vector<File> files, int offset = 0)
 {
     // DBG("createKit " << output << ", offset: " << offset);
     auto begin = files.begin() + offset;
@@ -36,7 +36,7 @@ bool createKit(const String &output, std::vector<File> files, int offset = 0)
     return true;
 }
 
-std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
+static std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
 {
     std::map<String, std::vector<File>> kits;
     String name;
@@ -59,17 +59,10 @@ std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
     return kits;
 }
 
-String subKitName(const String &output, const String &subkit)
+static String subKitName(const String &original, const String &sub)
 {
-    if(subkit.isEmpty())
-    {
-        return output;
-    }
-
-    String extension = " - ";
-    extension += subkit;
-    extension += ".sitala";
-    return output.replace(".sitala", extension);
+    auto dir = File(original).getParentDirectory().getFullPathName();
+    return File::addTrailingSeparator(dir) + sub + ".sitala";
 }
 
 int main(int argc, const char *argv[])
@@ -142,12 +135,13 @@ int main(int argc, const char *argv[])
     {
         if(files.size() % 16 == 0)
         {
+            jassert(names.size() == files.size());
+
             DBG("Splitting ADG into multiple kits: " << input);
 
             for(auto i = 0; i * 16 < files.size(); i++)
             {
-                auto sub = names.size() > i ? names[i] : String(i + 1);
-                createKit(subKitName(output, sub), files, i * 16);
+                createKit(subKitName(output, names[i]), files, i * 16);
             }
         }
         else
