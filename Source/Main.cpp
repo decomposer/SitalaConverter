@@ -40,20 +40,26 @@ static std::map<String, std::vector<File>> filesFromTextFile(const File &textFil
 {
     std::map<String, std::vector<File>> kits;
     String name;
-    FileInputStream stream(textFile);
 
-    for(auto line = stream.readNextLine(); !stream.isExhausted(); line = stream.readNextLine())
+    StringArray lines;
+    textFile.readLines(lines);
+
+    for(auto &line : lines)
     {
+        if(line.trim().isEmpty())
+        {
+            continue;
+        }
+
         if(line.startsWithChar('#'))
         {
             name = line.replaceFirstOccurrenceOf("#", "").trim();
+            continue;
         }
-        else
-        {
-            auto sample = File::addTrailingSeparator(
-                textFile.getParentDirectory().getFullPathName()) + line.trim();
-            kits[name].push_back(File(sample));
-        }
+
+        auto dir = textFile.getParentDirectory().getFullPathName();
+        auto sample = File::addTrailingSeparator(dir) + line.trim();
+        kits[name].push_back(File(sample));
     }
 
     return kits;
@@ -128,7 +134,7 @@ int main(int argc, const char *argv[])
                 continue;
             }
 
-            createKit(subKitName(output, name), files);
+            createKit(name.isEmpty() ? output : subKitName(output, name), files);
         }
     }
     else if(files.size() > 16)
