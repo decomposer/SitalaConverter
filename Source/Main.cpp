@@ -50,7 +50,9 @@ std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
         }
         else
         {
-            kits[name].push_back(File(line.trim()));
+            auto sample = File::addTrailingSeparator(
+                textFile.getParentDirectory().getFullPathName()) + line.trim();
+            kits[name].push_back(File(sample));
         }
     }
 
