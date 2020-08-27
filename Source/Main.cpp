@@ -46,7 +46,6 @@ std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
     {
         if(line.startsWithChar('#'))
         {
-            kits[name] = std::vector<File>();
             name = line.replaceFirstOccurrenceOf("#", "").trim();
         }
         else
@@ -55,7 +54,6 @@ std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
         }
     }
 
-    kits[name] = std::vector<File>();
     return kits;
 }
 
