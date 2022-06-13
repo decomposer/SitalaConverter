@@ -1,4 +1,5 @@
 #include "SitalaKitGenerator.h"
+#include "Config.h"
 
 SitalaKitGenerator::SitalaKitGenerator(const File &destination,
                                        std::vector<File> samples) :
@@ -109,7 +110,7 @@ bool SitalaKitGenerator::run()
 
     ValueTree root("sitala");
     root.setProperty("version", 4, nullptr);
-    root.setProperty("creator", "SamplesFromMarsConverter 0.1", nullptr);
+    root.setProperty("creator", PROJECT_NAME " " PROJECT_VERSION, nullptr);
 
     ValueTree kit("kit");
     kit.setProperty("label", m_destination.getFileNameWithoutExtension(), nullptr);

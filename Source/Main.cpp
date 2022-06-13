@@ -2,6 +2,7 @@
 
 #include "ADGReader.h"
 #include "SitalaKitGenerator.h"
+#include "Config.h"
 
 #include <algorithm>
 
@@ -86,7 +87,7 @@ int main(int argc, const char *argv[])
 
     if(argc != 3)
     {
-        DBG("Usage: SamplesFromMarsConverter [ADG-File] [Sitala-File]");
+        DBG("Usage: " PROJECT_NAME " [ADG-File] [Sitala-File]");
         return 1;
     }
 
