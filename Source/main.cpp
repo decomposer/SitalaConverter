@@ -1,6 +1,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "ADGReader.h"
+#include "AbletonDeviceGroupReader.h"
 #include "SitalaKitGenerator.h"
 #include "Config.h"
 
@@ -76,7 +76,7 @@ int main(int argc, const char *argv[])
 {
     if(argc == 2)
     {
-        auto files = ADGReader(File(argv[1])).getContainSamplePaths();
+        auto files = AbletonDeviceGroupReader(File(argv[1])).getContainSamplePaths();
         DBG(argv[1] << ": " << files.size() << " samples");
         for(auto file : files)
         {
@@ -102,7 +102,7 @@ int main(int argc, const char *argv[])
         return 2;
     }
 
-    ADGReader reader(adgFile);
+    AbletonDeviceGroupReader reader(adgFile);
     const auto files = reader.getContainSamplePaths();
 
     File textFile(adgFile.getFullPathName().replace(".adg", ".txt"));

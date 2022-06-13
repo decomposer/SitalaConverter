@@ -15,11 +15,11 @@ juce_add_console_app("${PROJECT_NAME}"
 juce_generate_juce_header("${PROJECT_NAME}")
 
 target_sources("${PROJECT_NAME}" PUBLIC
-  Source/ADGReader.h
-  Source/ADGReader.cpp
+  Source/AbletonDeviceGroupReader.h
+  Source/AbletonDeviceGroupReader.cpp
   Source/SitalaKitGenerator.h
   Source/SitalaKitGenerator.cpp
-  Source/Main.cpp
+  Source/main.cpp
 )
 
 target_link_libraries("${PROJECT_NAME}" PUBLIC

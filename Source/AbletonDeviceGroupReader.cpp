@@ -1,11 +1,11 @@
-#include "ADGReader.h"
+#include "AbletonDeviceGroupReader.h"
 
-ADGReader::ADGReader(const File &source) :
+AbletonDeviceGroupReader::AbletonDeviceGroupReader(const File &source) :
     m_source(source)
 {
 }
 
-std::vector<File> ADGReader::getContainSamplePaths()
+std::vector<File> AbletonDeviceGroupReader::getContainSamplePaths()
 {
     jassert(m_source.exists());
 
@@ -42,8 +42,9 @@ std::vector<File> ADGReader::getContainSamplePaths()
     return samples;
 }
 
-void ADGReader::processElements(const XmlElement *parent, const String &tag,
-                                const std::function<void(const XmlElement *)> &processor)
+void AbletonDeviceGroupReader::processElements(
+    const XmlElement *parent, const String &tag,
+    const std::function<void(const XmlElement *)> &processor)
 {
     if(parent->getTagName() == tag)
     {
@@ -58,7 +59,8 @@ void ADGReader::processElements(const XmlElement *parent, const String &tag,
     }
 }
 
-void ADGReader::processSampleRef(const XmlElement *sampleRef, std::vector<File> &samples)
+void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
+                                                std::vector<File> &samples)
 {
     auto fileRef = sampleRef->getChildByName("FileRef");
     if(fileRef)
