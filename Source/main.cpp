@@ -6,11 +6,11 @@
 
 #include <algorithm>
 
-static bool createKit(const String &output, std::vector<File> files, int offset = 0)
+static bool createKit(const String &output, std::vector<File> files, long offset = 0)
 {
     // DBG("createKit " << output << ", offset: " << offset);
     auto begin = files.begin() + offset;
-    auto end = files.size() - offset <= 16 ? files.end() : files.begin() + offset + 16;
+    auto end = files.size() - static_cast<unsigned long>(offset) <= 16 ? files.end() : files.begin() + offset + 16;
     std::vector<File> slice(begin, end);
 
     files = slice;
@@ -142,11 +142,11 @@ int main(int argc, const char *argv[])
     {
         if(files.size() % 16 == 0)
         {
-            jassert(names.size() == files.size());
+            jassert(static_cast<unsigned long>(names.size()) == files.size());
 
             DBG("Splitting ADG into multiple kits: " << input);
 
-            for(auto i = 0; i * 16 < files.size(); i++)
+            for(auto i = 0; static_cast<unsigned long>(i * 16) < files.size(); i++)
             {
                 createKit(subKitName(output, names[i]), files, i * 16);
             }

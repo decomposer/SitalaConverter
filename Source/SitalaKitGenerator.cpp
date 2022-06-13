@@ -12,9 +12,9 @@ bool SitalaKitGenerator::run()
 {
     ValueTree soundTree("sounds");
 
-    for(auto i = 0; i < m_samples.size(); i++)
+    for(auto i = 0; static_cast<unsigned long>(i) < m_samples.size(); i++)
     {
-        const auto file = m_samples[i];
+        const auto file = m_samples[static_cast<unsigned long>(i)];
         auto relative = file.getRelativePathFrom(m_destination.getParentDirectory());
 
         ValueTree node("sound");
@@ -125,7 +125,7 @@ bool SitalaKitGenerator::run()
 
     MemoryOutputStream out;
     std::unique_ptr<XmlElement> rootElement(root.createXml());
-    rootElement->writeToStream(out, StringRef());
+    rootElement->writeTo(out);
     out.flush();
 
     auto in = new MemoryInputStream(out.getData(), out.getDataSize(), false);

@@ -28,7 +28,7 @@ std::vector<File> AbletonDeviceGroupReader::getContainSamplePaths()
 
     std::map<int, File> sorted;
 
-    processElements(root.get(), "ReceivingNote", [this, &samples, &sorted](const XmlElement *e) {
+    processElements(root.get(), "ReceivingNote", [&samples, &sorted](const XmlElement *e) {
         sorted[128 - e->getIntAttribute("Value")] = samples[sorted.size()];
     });
 
