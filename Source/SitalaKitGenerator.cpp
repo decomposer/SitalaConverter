@@ -2,7 +2,7 @@
 #include "Config.h"
 
 SitalaKitGenerator::SitalaKitGenerator(const File &destination,
-                                       std::vector<File> samples) :
+                                       const std::vector<File> &samples) :
     m_destination(destination), m_samples(samples)
 {
     m_formatManager.registerBasicFormats();

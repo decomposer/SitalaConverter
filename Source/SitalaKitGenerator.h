@@ -6,7 +6,7 @@
 class SitalaKitGenerator
 {
 public:
-    SitalaKitGenerator(const File &destination, std::vector<File> samples);
+    SitalaKitGenerator(const File &destination, const std::vector<File> &samples);
 
     bool run();
 
