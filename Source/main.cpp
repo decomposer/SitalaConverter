@@ -6,6 +6,9 @@
 
 #include <algorithm>
 
+#include <QApplication>
+#include <QMainWindow>
+
 static bool createKit(const String &output, std::vector<File> files, long offset = 0)
 {
     // DBG("createKit " << output << ", offset: " << offset);
@@ -72,8 +75,16 @@ static String subKitName(const String &original, const String &sub)
     return File::addTrailingSeparator(dir) + sub + ".sitala";
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
+    if(argc == 1)
+    {
+        QApplication app(argc, argv);
+        QMainWindow win;
+        win.show();
+        return app.exec();
+    }
+
     if(argc == 2)
     {
         auto files = AbletonDeviceGroupReader(File(argv[1])).getContainSamplePaths();
