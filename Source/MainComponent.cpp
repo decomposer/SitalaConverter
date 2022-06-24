@@ -14,7 +14,14 @@ MainComponent::~MainComponent()
 
 void MainComponent::paint(juce::Graphics &g)
 {
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+    auto colour = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
+
+    if(m_dragging)
+    {
+        colour = colour.brighter(0.1);
+    }
+
+    g.fillAll(colour);
     g.setFont(juce::Font(16.0f));
     g.setColour(juce::Colours::white);
     g.drawText(TRANS("Drop Ableton Live Devices Here"),
@@ -40,7 +47,23 @@ bool MainComponent::isInterestedInFileDrag(const StringArray &files)
     return false;
 }
 
+void MainComponent::fileDragEnter(const StringArray & /* files */, int /* x */, int /* y */)
+{
+    setDragging(true);
+}
+
+void MainComponent::fileDragExit(const StringArray & /* files */)
+{
+    setDragging(false);
+}
+
 void MainComponent::filesDropped(const StringArray &files, int /* x */, int /* y */)
 {
+    setDragging(false);
+}
 
+void MainComponent::setDragging(bool d)
+{
+    m_dragging = d;
+    repaint();
 }
