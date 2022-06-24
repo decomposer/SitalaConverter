@@ -1,11 +1,5 @@
-#include "../JuceLibraryCode/JuceHeader.h"
-
-#include "AbletonDeviceGroupReader.h"
-#include "SitalaKitGenerator.h"
-#include "Config.h"
+#include "JuceHeader.h"
 #include "MainComponent.h"
-
-#include <algorithm>
 
 class SitalaConverterApplication  : public juce::JUCEApplication
 {
@@ -81,34 +75,5 @@ public:
 private:
     std::unique_ptr<MainWindow> mainWindow;
 };
-
-static std::map<String, std::vector<File>> filesFromTextFile(const File &textFile)
-{
-    std::map<String, std::vector<File>> kits;
-    String name;
-
-    StringArray lines;
-    textFile.readLines(lines);
-
-    for(auto &line : lines)
-    {
-        if(line.trim().isEmpty())
-        {
-            continue;
-        }
-
-        if(line.startsWithChar('#'))
-        {
-            name = line.replaceFirstOccurrenceOf("#", "").trim();
-            continue;
-        }
-
-        auto dir = textFile.getParentDirectory().getFullPathName();
-        auto sample = File::addTrailingSeparator(dir) + line.trim();
-        kits[name].push_back(File(sample));
-    }
-
-    return kits;
-}
 
 START_JUCE_APPLICATION(SitalaConverterApplication)
