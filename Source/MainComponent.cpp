@@ -1,5 +1,7 @@
 #include "MainComponent.h"
 
+#define ADG_EXTENSION ".adg"
+
 MainComponent::MainComponent()
 {
     setSize(600, 400);
@@ -21,6 +23,24 @@ void MainComponent::paint(juce::Graphics &g)
 }
 
 void MainComponent::resized()
+{
+
+}
+
+bool MainComponent::isInterestedInFileDrag(const StringArray &files)
+{
+    for(auto file : files)
+    {
+        if(file.endsWith(ADG_EXTENSION))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void MainComponent::filesDropped(const StringArray &files, int /* x */, int /* y */)
 {
 
 }
