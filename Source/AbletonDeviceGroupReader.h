@@ -9,6 +9,8 @@ public:
 
     std::vector<File> getContainSamplePaths();
 
+    static bool isAbletonKit(const File &file);
+
 private:
     void processElements(const XmlElement *parent, const String &tag,
                          const std::function<void(const XmlElement *)> &processor);
