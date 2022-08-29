@@ -7,7 +7,7 @@ class AbletonDeviceGroupReader
 public:
     AbletonDeviceGroupReader(const File &source);
 
-    std::vector<File> getContainSamplePaths();
+    std::vector<File> getSamples();
 
     static bool isAbletonKit(const File &file);
 

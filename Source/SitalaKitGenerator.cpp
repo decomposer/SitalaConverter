@@ -1,20 +1,27 @@
 #include "SitalaKitGenerator.h"
 #include "Config.h"
 
+static constexpr auto ZipLevel = 9;
+
 SitalaKitGenerator::SitalaKitGenerator(const File &destination,
-                                       const std::vector<File> &samples) :
-    m_destination(destination), m_samples(samples)
+                                       const std::vector<File> &samples,
+                                       SampleReferences references) :
+    m_destination(destination),
+    m_samples(samples),
+    m_references(references)
 {
     m_formatManager.registerBasicFormats();
 }
 
 bool SitalaKitGenerator::run()
 {
+    ZipFile::Builder fileBuilder;
+
     ValueTree soundTree("sounds");
 
     for(auto i = 0; static_cast<unsigned long>(i) < m_samples.size(); i++)
     {
-        const auto file = m_samples[static_cast<unsigned long>(i)];
+        const auto &file = m_samples[static_cast<unsigned long>(i)];
         auto relative = file.getRelativePathFrom(m_destination.getParentDirectory());
 
         ValueTree node("sound");
@@ -24,6 +31,17 @@ bool SitalaKitGenerator::run()
         if(!file.exists())
         {
             return false;
+        }
+
+        if(m_references == Embedded)
+        {
+            auto name = String("Samples/") + file.getFileName();
+            node.setProperty("internal", name, nullptr);
+            fileBuilder.addFile(file, ZipLevel, name);
+        }
+        else
+        {
+            node.setProperty("external", relative, nullptr);
         }
 
         MD5 checksum(file);
@@ -129,8 +147,7 @@ bool SitalaKitGenerator::run()
 
     auto in = new MemoryInputStream(out.getData(), out.getDataSize(), false);
 
-    ZipFile::Builder fileBuilder;
-    fileBuilder.addEntry(in, 0, "kit1.xml", Time());
+    fileBuilder.addEntry(in, ZipLevel, "kit1.xml", Time());
 
     FileOutputStream zipOut(m_destination);
 
