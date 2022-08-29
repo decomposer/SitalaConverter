@@ -1,6 +1,6 @@
 #include "AbletonDeviceGroupReader.h"
 
-#define ADG_EXTENSION "adg"
+#define ADG_EXTENSION ".adg"
 
 AbletonDeviceGroupReader::AbletonDeviceGroupReader(const File &source) :
     m_source(source)

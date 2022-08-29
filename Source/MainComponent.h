@@ -17,6 +17,7 @@ public:
     void filesDropped(const StringArray &files, int x, int y) override;
 private:
     void setDragging(bool d);
+    void convert(const StringArray &files) const;
 
     bool m_dragging = false;
 
