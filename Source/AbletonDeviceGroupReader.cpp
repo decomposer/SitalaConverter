@@ -1,8 +1,15 @@
 #include "AbletonDeviceGroupReader.h"
 
+#define ADG_EXTENSION "adg"
+
 AbletonDeviceGroupReader::AbletonDeviceGroupReader(const File &source) :
     m_source(source)
 {
+}
+
+bool AbletonDeviceGroupReader::isAbletonKit(const File &file)
+{
+    return file.getFileExtension() == ADG_EXTENSION;
 }
 
 std::vector<File> AbletonDeviceGroupReader::getContainSamplePaths()

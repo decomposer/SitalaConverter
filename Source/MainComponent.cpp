@@ -1,6 +1,5 @@
 #include "MainComponent.h"
-
-#define ADG_EXTENSION ".adg"
+#include "AbletonDeviceGroupReader.h"
 
 MainComponent::MainComponent()
 {
@@ -38,7 +37,7 @@ bool MainComponent::isInterestedInFileDrag(const StringArray &files)
 {
     for(auto file : files)
     {
-        if(file.endsWith(ADG_EXTENSION))
+        if(AbletonDeviceGroupReader::isAbletonKit(file))
         {
             return true;
         }
