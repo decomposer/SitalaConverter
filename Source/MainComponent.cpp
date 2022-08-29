@@ -18,7 +18,7 @@ void MainComponent::paint(juce::Graphics &g)
 
     if(m_dragging)
     {
-        colour = colour.brighter(0.1);
+        colour = colour.brighter(0.1f);
     }
 
     g.fillAll(colour);
