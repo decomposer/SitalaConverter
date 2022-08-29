@@ -19,8 +19,7 @@ bool SitalaKitGenerator::run()
 
         ValueTree node("sound");
         node.setProperty("slot", i, nullptr);
-        node.setProperty("name" ,file.getFileNameWithoutExtension(), nullptr);
-        node.setProperty("external", relative, nullptr);
+        node.setProperty("name", file.getFileNameWithoutExtension(), nullptr);
 
         if(!file.exists())
         {
@@ -135,7 +134,7 @@ bool SitalaKitGenerator::run()
 
     FileOutputStream zipOut(m_destination);
 
-    zipOut.setPosition (0);
+    zipOut.setPosition(0);
     zipOut.truncate();
 
     fileBuilder.writeToStream(zipOut, nullptr);
