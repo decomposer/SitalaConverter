@@ -42,7 +42,7 @@ static bool createKit(const String &output, std::vector<File> files, long offset
 void Converter::convert(const String &inputFile, const String &outputFile)
 {
     AbletonDeviceGroupReader reader(inputFile);
-    const auto files = reader.getContainSamplePaths();
+    const auto files = reader.getSamples();
 
     StringArray names;
 

@@ -12,7 +12,7 @@ bool AbletonDeviceGroupReader::isAbletonKit(const File &file)
     return file.getFileExtension() == ADG_EXTENSION;
 }
 
-std::vector<File> AbletonDeviceGroupReader::getContainSamplePaths()
+std::vector<File> AbletonDeviceGroupReader::getSamples()
 {
     jassert(m_source.exists());
 
