@@ -101,7 +101,8 @@ MainComponent::MainComponent() :
     m_convertButton.setEnabled(false);
     appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
     m_convertButton.onClick = [this] {
-        convert();
+        auto kits = convert();
+        kits.getFirst().revealToUser();
     };
 
     addSpacer();
@@ -185,8 +186,10 @@ void MainComponent::setFilesToConvert(const Array<File> &files)
     m_convertButton.setEnabled(true);
 }
 
-void MainComponent::convert() const
+Array<File> MainComponent::convert() const
 {
+    Array<File> sitalaKits;
+
     for(auto file : m_abletonKits)
     {
         if(!AbletonDeviceGroupReader::isAbletonKit(file))
@@ -205,10 +208,14 @@ void MainComponent::convert() const
                          file.getFileNameWithoutExtension() +
                          ".sitala";
 
+        sitalaKits.add(sitalaKit);
+
         SitalaKitGenerator(sitalaKit,
                            reader.getSamples(),
                            (m_embedButton.getToggleState() ?
                             SitalaKitGenerator::Embedded :
                             SitalaKitGenerator::Referenced)).run();
     }
+
+    return sitalaKits;
 }
