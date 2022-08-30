@@ -2,22 +2,49 @@
 #include "AbletonDeviceGroupReader.h"
 #include "SitalaKitGenerator.h"
 
+MainComponent::Label::Label(const String &text) : juce::Label(String(), text)
+{
+    setSizeHint(LayoutManager::Orientation::Vertical, Constraints::fixed(Drawing::ControlHeight));
+}
+
+MainComponent::ToggleButton::ToggleButton(const String &text, bool checked) : juce::ToggleButton(text)
+{
+    setToggleState(checked, dontSendNotification);
+    setSizeHint(LayoutManager::Orientation::Vertical, Constraints::fixed(Drawing::ControlHeight));
+}
+
+enum
+{
+    DirectoryButtonGroup = 1001
+};
+
 MainComponent::MainComponent() :
     LayoutManagedComponent(Orientation::Vertical),
-    m_dropLabel("dropLabel", TRANS("Drop Ableton Live devices here:")),
-    m_embedButton(TRANS("Embed samples in kit"))
+    m_dropLabel(TRANS("Drop Ableton Live devices here:")),
+    m_embedButton(TRANS("Embed samples in kit"), true),
+    m_sameDirectoryButton(TRANS("Put Sitala kits into same folder as the Ableton kit"), true),
+    m_specificDirectoryButton(TRANS("Put Sitala kits into a specific folder")),
+    m_directoryLabel(TRANS("None selected"))
 {
-    setSize(400, 200);
+    setSize(400, 300);
     setBorderSizes(BorderSize(10));
 
     addSpacer();
 
-    appendComponent(&m_dropLabel, Constraints::fixed(Drawing::ControlHeight));
+    appendComponent(&m_dropLabel);
 
-    addSpacer(Constraints::fixed(Drawing::ControlHeight / 2));
+    addSpacer(Constraints::fixed(Drawing::ControlHeight));
 
-    appendComponent(&m_embedButton, Constraints::fixed(Drawing::ControlHeight));
-    m_embedButton.setToggleState(true, dontSendNotification);
+    appendComponent(&m_embedButton);
+
+    addSpacer(Constraints::fixed(Drawing::ControlHeight));
+
+    m_sameDirectoryButton.setRadioGroupId(DirectoryButtonGroup);
+    appendComponent(&m_sameDirectoryButton);
+
+    m_specificDirectoryButton.setRadioGroupId(DirectoryButtonGroup);
+    appendComponent(&m_specificDirectoryButton);
+    appendComponent(&m_directoryLabel);
 
     addSpacer();
 }
