@@ -7,7 +7,7 @@ MainComponent::Label::Label(const String &text) :
     m_textColour(findColour(Label::textColourId))
 {
     setSizeHint(LayoutManager::Orientation::Vertical, Constraints::fixed(Drawing::ControlHeight));
-
+    setMinimumHorizontalScale(1.0f);
 }
 
 void MainComponent::Label::setEnabled(bool enabled)
@@ -30,18 +30,28 @@ static const auto noneSelected = TRANS("None selected");
 
 MainComponent::MainComponent() :
     LayoutManagedComponent(Orientation::Vertical),
-    m_dropLabel(TRANS("Drop Ableton Live devices here:")),
     m_embedButton(TRANS("Embed samples in kit"), true),
     m_sameDirectoryButton(TRANS("Put Sitala kits into same folder as the Ableton kit"), true),
     m_specificDirectoryButton(TRANS("Put Sitala kits into a specific folder")),
-    m_directoryLabel(noneSelected)
+    m_directoryLabel(noneSelected),
+    m_convertButton(TRANS("Convert!"))
 {
     setSize(400, 300);
     setBorderSizes(BorderSize(10));
 
     addSpacer();
 
-    appendComponent(&m_dropLabel);
+    m_selectButton.setButtonText(TRANS("Select (or drop) Ablton Live kits..."));
+    appendComponent(&m_selectButton, Constraints::fixed(Drawing::ButtonHeight));
+    m_selectButton.onClick = [this] {
+        FileChooser chooser(TRANS("Select Ableton Live drum kits..."), File(), "*.adg");
+        if(chooser.browseForMultipleFilesToOpen())
+        {
+            setFilesToConvert(chooser.getResults());
+        }
+    };
+
+    appendComponent(&m_fileCountLabel);
 
     addSpacer(Constraints::fixed(Drawing::ControlHeight));
 
@@ -84,6 +94,14 @@ MainComponent::MainComponent() :
             m_sameDirectoryButton.setToggleState(true, dontSendNotification);
             m_directoryLabel.setText(noneSelected, dontSendNotification);
         }
+    };
+
+    addSpacer();
+
+    m_convertButton.setEnabled(false);
+    appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
+    m_convertButton.onClick = [this] {
+        convert();
     };
 
     addSpacer();
@@ -131,10 +149,26 @@ void MainComponent::fileDragExit(const StringArray & /* files */)
     setDragging(false);
 }
 
-void MainComponent::filesDropped(const StringArray &files, int /* x */, int /* y */)
+void MainComponent::filesDropped(const StringArray &fileNames, int /* x */, int /* y */)
 {
     setDragging(false);
-    convert(files);
+
+    Array<File> files;
+
+    for(auto name : fileNames)
+    {
+        File file(name);
+
+        if(AbletonDeviceGroupReader::isAbletonKit(file))
+        {
+            files.add(file);
+        }
+    }
+
+    if(!files.isEmpty())
+    {
+        setFilesToConvert(files);
+    }
 }
 
 void MainComponent::setDragging(bool d)
@@ -143,12 +177,18 @@ void MainComponent::setDragging(bool d)
     repaint();
 }
 
-void MainComponent::convert(const StringArray &files) const
+void MainComponent::setFilesToConvert(const Array<File> &files)
 {
-    for(auto fileName : files)
-    {
-        File file(fileName);
+    m_abletonKits = files;
+    m_fileCountLabel.setText(String::formatted(TRANS("%i kit(s) selected"), files.size()),
+                             dontSendNotification);
+    m_convertButton.setEnabled(true);
+}
 
+void MainComponent::convert() const
+{
+    for(auto file : m_abletonKits)
+    {
         if(!AbletonDeviceGroupReader::isAbletonKit(file))
         {
             continue;
