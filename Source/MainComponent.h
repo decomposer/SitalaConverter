@@ -9,6 +9,9 @@ class MainComponent : public LayoutManagedComponent, public FileDragAndDropTarge
     {
     public:
         Label(const String &text = String());
+        void setEnabled(bool enabled = true);
+    private:
+        Colour m_textColour;
     };
 
     class ToggleButton : public juce::ToggleButton, public SizeHint
@@ -41,6 +44,8 @@ private:
     Label m_directoryLabel;
 
     bool m_dragging = false;
+
+    File m_outputDirectory;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

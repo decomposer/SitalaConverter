@@ -44,7 +44,9 @@ target_link_libraries("${PROJECT_NAME}" PUBLIC
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
-target_compile_definitions(${PROJECT_NAME} PUBLIC JUCE_DISPLAY_SPLASH_SCREEN=0)
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+  JUCE_MODAL_LOOPS_PERMITTED=1
+  JUCE_DISPLAY_SPLASH_SCREEN=0)
 
 set(artefacts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_artefacts")
 
