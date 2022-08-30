@@ -21,6 +21,10 @@ target_sources("${PROJECT_NAME}" PUBLIC
   Source/Converter.cpp
   Source/MainComponent.h
   Source/MainComponent.cpp
+  Source/LayoutManager.h
+  Source/LayoutManager.cpp
+  Source/LayoutManagedComponent.h
+  Source/LayoutManagedComponent.cpp
   Source/SitalaKitGenerator.h
   Source/SitalaKitGenerator.cpp
   Source/main.cpp
