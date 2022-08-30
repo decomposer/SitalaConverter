@@ -2,9 +2,24 @@
 #include "AbletonDeviceGroupReader.h"
 #include "SitalaKitGenerator.h"
 
-MainComponent::MainComponent()
+MainComponent::MainComponent() :
+    LayoutManagedComponent(Orientation::Vertical),
+    m_dropLabel("dropLabel", TRANS("Drop Ableton Live devices here:")),
+    m_embedButton(TRANS("Embed samples in kit"))
 {
-    setSize(600, 400);
+    setSize(400, 200);
+    setBorderSizes(BorderSize(10));
+
+    addSpacer();
+
+    appendComponent(&m_dropLabel, Constraints::fixed(Drawing::ControlHeight));
+
+    addSpacer(Constraints::fixed(Drawing::ControlHeight / 2));
+
+    appendComponent(&m_embedButton, Constraints::fixed(Drawing::ControlHeight));
+    m_embedButton.setToggleState(true, dontSendNotification);
+
+    addSpacer();
 }
 
 MainComponent::~MainComponent()
@@ -22,16 +37,8 @@ void MainComponent::paint(juce::Graphics &g)
     }
 
     g.fillAll(colour);
-    g.setFont(juce::Font(16.0f));
-    g.setColour(juce::Colours::white);
-    g.drawText(TRANS("Drop Ableton Live Devices Here"),
-               getLocalBounds(),
-               juce::Justification::centred, true);
-}
 
-void MainComponent::resized()
-{
-
+    LayoutManagedComponent::paint(g);
 }
 
 bool MainComponent::isInterestedInFileDrag(const StringArray &files)
@@ -87,6 +94,10 @@ void MainComponent::convert(const StringArray &files) const
                          file.getFileNameWithoutExtension() +
                          ".sitala";
 
-        SitalaKitGenerator(sitalaKit, reader.getSamples()).run();
+        SitalaKitGenerator(sitalaKit,
+                           reader.getSamples(),
+                           (m_embedButton.getToggleState() ?
+                            SitalaKitGenerator::Embedded :
+                            SitalaKitGenerator::Referenced)).run();
     }
 }
