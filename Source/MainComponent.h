@@ -34,7 +34,7 @@ public:
 private:
     void setDragging(bool d);
     void setFilesToConvert(const Array<File> &files);
-    void convert() const;
+    Array<File> convert() const;
 
     TextButton m_selectButton;
     Label m_fileCountLabel;
