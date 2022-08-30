@@ -166,7 +166,7 @@ class Drawing
 {
 public:
     static constexpr float ControlHeight = 20;
-    static constexpr float DefaultSpace = 5;
+    static constexpr float DefaultSpace = 10;
     static const LayoutManager::Constraints StandardSpacerConstraints;
     static const LayoutManager::Constraints ControlHeightConstraints;
 };
