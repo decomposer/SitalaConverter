@@ -10,6 +10,9 @@ class MainComponent : public LayoutManagedComponent, public FileDragAndDropTarge
     public:
         Label(const String &text = String());
         void setEnabled(bool enabled = true);
+        LayoutManager::Constraints getSizeHint(
+            LayoutManager::Orientation orientation) const override;
+
     private:
         Colour m_textColour;
     };

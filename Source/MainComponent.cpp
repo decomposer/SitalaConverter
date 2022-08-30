@@ -6,9 +6,22 @@ MainComponent::Label::Label(const String &text) :
     juce::Label(String(), text),
     m_textColour(findColour(Label::textColourId))
 {
-    setSizeHint(LayoutManager::Orientation::Vertical, Constraints::fixed(Drawing::ControlHeight));
     setMinimumHorizontalScale(1.0f);
 }
+
+
+LayoutManager::Constraints MainComponent::Label::getSizeHint(
+    LayoutManager::Orientation orientation) const
+{
+    if(orientation == LayoutManager::Orientation::Vertical)
+    {
+        return Constraints::fixed(
+            isEditable() ? Drawing::ControlHeight + 4 : Drawing::ControlHeight);
+    }
+
+    return SizeHint::getSizeHint(orientation);
+}
+
 
 void MainComponent::Label::setEnabled(bool enabled)
 {
