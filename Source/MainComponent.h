@@ -29,13 +29,16 @@ public:
     bool isInterestedInFileDrag(const StringArray &files) override;
     void fileDragEnter(const StringArray &files, int x, int y) override;
     void fileDragExit(const StringArray &files) override;
-    void filesDropped(const StringArray &files, int x, int y) override;
+    void filesDropped(const StringArray &fileNames, int x, int y) override;
 
 private:
     void setDragging(bool d);
-    void convert(const StringArray &files) const;
+    void setFilesToConvert(const Array<File> &files);
+    void convert() const;
 
-    Label m_dropLabel;
+    TextButton m_selectButton;
+    Label m_fileCountLabel;
+
     ToggleButton m_embedButton;
 
     ToggleButton m_sameDirectoryButton;
@@ -43,8 +46,11 @@ private:
 
     Label m_directoryLabel;
 
+    TextButton m_convertButton;
+
     bool m_dragging = false;
 
+    Array<File> m_abletonKits;
     File m_outputDirectory;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
