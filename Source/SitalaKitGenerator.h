@@ -12,8 +12,9 @@ public:
         Referenced
     };
 
-    SitalaKitGenerator(const File &destination, const std::vector<File> &samples,
-                       SampleReferences references = Embedded);
+    SitalaKitGenerator(const File &destination);
+    void setSamples(const std::vector<File> &samples, SampleReferences references = Embedded);
+    void setVendor(const String &vendor);
 
     bool run();
 
@@ -22,4 +23,5 @@ private:
     File m_destination;
     std::vector<File> m_samples;
     SampleReferences m_references = Embedded;
+    String m_vendor;
 };

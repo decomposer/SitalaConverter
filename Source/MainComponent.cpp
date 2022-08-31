@@ -6,6 +6,7 @@ MainComponent::Label::Label(const String &text) :
     juce::Label(String(), text),
     m_textColour(findColour(Label::textColourId))
 {
+    setJustificationType(Justification::verticallyCentred);
     setMinimumHorizontalScale(1.0f);
 }
 
@@ -47,9 +48,10 @@ MainComponent::MainComponent() :
     m_sameDirectoryButton(TRANS("Put Sitala kits into same folder as the Ableton kit"), true),
     m_specificDirectoryButton(TRANS("Put Sitala kits into a specific folder")),
     m_directoryLabel(noneSelected),
+    m_vendorLabel(TRANS("Vendor name for kits:")),
     m_convertButton(TRANS("Convert!"))
 {
-    setSize(400, 300);
+    setSize(400, 400);
     setBorderSizes(BorderSize(10));
 
     addSpacer();
@@ -108,6 +110,13 @@ MainComponent::MainComponent() :
             m_directoryLabel.setText(noneSelected, dontSendNotification);
         }
     };
+
+    addSpacer();
+
+    appendComponent(&m_vendorLabel);
+    m_vendorInput.setEditable(true);
+    m_vendorInput.setColour(juce::Label::outlineColourId, juce::Colours::darkgrey);
+    appendComponent(&m_vendorInput);
 
     addSpacer();
 
@@ -223,11 +232,13 @@ Array<File> MainComponent::convert() const
 
         sitalaKits.add(sitalaKit);
 
-        SitalaKitGenerator(sitalaKit,
-                           reader.getSamples(),
-                           (m_embedButton.getToggleState() ?
-                            SitalaKitGenerator::Embedded :
-                            SitalaKitGenerator::Referenced)).run();
+        SitalaKitGenerator generator(sitalaKit);
+        generator.setSamples(reader.getSamples(),
+                             (m_embedButton.getToggleState() ?
+                              SitalaKitGenerator::Embedded :
+                              SitalaKitGenerator::Referenced));
+        generator.setVendor(m_vendorInput.getText());
+        generator.run();
     }
 
     return sitalaKits;

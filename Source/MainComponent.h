@@ -49,6 +49,9 @@ private:
 
     Label m_directoryLabel;
 
+    Label m_vendorLabel;
+    Label m_vendorInput;
+
     TextButton m_convertButton;
 
     bool m_dragging = false;
