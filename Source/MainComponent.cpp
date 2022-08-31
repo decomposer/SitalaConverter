@@ -51,6 +51,11 @@ MainComponent::MainComponent() :
     m_vendorLabel(TRANS("Vendor name for kits:")),
     m_convertButton(TRANS("Convert!"))
 {
+    PropertiesFile::Options preferenceOptions;
+    preferenceOptions.applicationName = ProjectInfo::projectName;
+    preferenceOptions.osxLibrarySubFolder = "Preferences";
+    m_preferences.setStorageParameters(preferenceOptions);
+
     setSize(400, 400);
     setBorderSizes(BorderSize(10));
 
@@ -116,6 +121,7 @@ MainComponent::MainComponent() :
     appendComponent(&m_vendorLabel);
     m_vendorInput.setEditable(true);
     m_vendorInput.setColour(juce::Label::outlineColourId, juce::Colours::darkgrey);
+    m_vendorInput.setText(m_preferences.getUserSettings()->getValue("vendor"), dontSendNotification);
     appendComponent(&m_vendorInput);
 
     addSpacer();
@@ -123,6 +129,7 @@ MainComponent::MainComponent() :
     m_convertButton.setEnabled(false);
     appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
     m_convertButton.onClick = [this] {
+        m_preferences.getUserSettings()->setValue("vendor", m_vendorInput.getText());
         auto kits = convert();
         kits.getFirst().revealToUser();
     };

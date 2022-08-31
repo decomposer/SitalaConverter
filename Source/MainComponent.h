@@ -39,6 +39,8 @@ private:
     void setFilesToConvert(const Array<File> &files);
     Array<File> convert() const;
 
+    ApplicationProperties m_preferences;
+
     TextButton m_selectButton;
     Label m_fileCountLabel;
 
