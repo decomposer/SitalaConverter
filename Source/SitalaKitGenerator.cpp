@@ -3,14 +3,21 @@
 
 static constexpr auto ZipLevel = 9;
 
-SitalaKitGenerator::SitalaKitGenerator(const File &destination,
-                                       const std::vector<File> &samples,
-                                       SampleReferences references) :
-    m_destination(destination),
-    m_samples(samples),
-    m_references(references)
+SitalaKitGenerator::SitalaKitGenerator(const File &destination) :
+    m_destination(destination)
 {
     m_formatManager.registerBasicFormats();
+}
+
+void SitalaKitGenerator::setSamples(const std::vector<File> &samples, SampleReferences references)
+{
+    m_samples = samples;
+    m_references = references;
+}
+
+void SitalaKitGenerator::setVendor(const String &vendor)
+{
+    m_vendor = vendor;
 }
 
 bool SitalaKitGenerator::run()
@@ -133,11 +140,14 @@ bool SitalaKitGenerator::run()
     kit.setProperty("label", m_destination.getFileNameWithoutExtension(), nullptr);
     kit.appendChild(soundTree, nullptr);
 
-    ValueTree meta("meta");
-    meta.setProperty("creator", "Samples from Mars", nullptr);
-    meta.setProperty("description", "", nullptr);
+    if(!m_vendor.isEmpty())
+    {
+        ValueTree meta("meta");
+        meta.setProperty("creator", m_vendor, nullptr);
+        meta.setProperty("description", "", nullptr);
+        kit.appendChild(meta, nullptr);
+    }
 
-    kit.appendChild(meta, nullptr);
     root.appendChild(kit, nullptr);
 
     MemoryOutputStream out;
