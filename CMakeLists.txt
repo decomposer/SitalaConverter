@@ -17,8 +17,6 @@ juce_generate_juce_header("${PROJECT_NAME}")
 target_sources("${PROJECT_NAME}" PUBLIC
   Source/AbletonDeviceGroupReader.h
   Source/AbletonDeviceGroupReader.cpp
-  Source/Converter.h
-  Source/Converter.cpp
   Source/MainComponent.h
   Source/MainComponent.cpp
   Source/LayoutManager.h
