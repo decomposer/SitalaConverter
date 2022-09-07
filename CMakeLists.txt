@@ -52,3 +52,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   ${artefacts})
 
 configure_file(Config.h.in "${artefacts}/Config.h")
+
+if(WIN32)
+  add_custom_target(SignedBinary
+    DEPENDS ${PROJECT_NAME}
+    COMMAND signtool "sign"
+      "/t" "http://timestamp.digicert.com"
+      "/a" "$<TARGET_FILE:${PROJECT_NAME}>")
+endif()
