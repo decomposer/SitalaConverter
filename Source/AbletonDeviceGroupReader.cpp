@@ -46,6 +46,8 @@ std::vector<File> AbletonDeviceGroupReader::getSamples()
         samples.push_back(sample);
     }
 
+    DBG("Found " << samples.size() << " samples");
+
     return samples;
 }
 

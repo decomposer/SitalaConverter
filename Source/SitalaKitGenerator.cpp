@@ -37,6 +37,7 @@ bool SitalaKitGenerator::run()
 
         if(!file.exists())
         {
+            DBG("Sample " << file.getFullPathName() << " not found");
             return false;
         }
 
@@ -59,7 +60,7 @@ bool SitalaKitGenerator::run()
 
         if(!reader)
         {
-            DBG("Couldn't create reader");
+            DBG("Couldn't create reader for " << file.getFullPathName());
             return false;
         }
 
