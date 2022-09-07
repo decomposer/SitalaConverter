@@ -66,6 +66,24 @@ void AbletonDeviceGroupReader::processElements(
     }
 }
 
+static File resolveRelative(File root, const String &name)
+{
+    auto file = root.getChildFile(name);
+
+    if(file.exists())
+    {
+        return file;
+    }
+
+    if(root.isRoot())
+    {
+        DBG("File not found: " << name);
+        return File();
+    }
+
+    return resolveRelative(root.getParentDirectory(), name);
+}
+
 void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
                                                 std::vector<File> &samples)
 {
@@ -103,7 +121,6 @@ void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
             path += name;
         }
 
-        auto file = m_source.getChildFile(String("../") + path);
-        samples.push_back(file);
+        samples.push_back(resolveRelative(m_source, path));
     }
 }
