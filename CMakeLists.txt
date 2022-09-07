@@ -59,4 +59,14 @@ if(WIN32)
     COMMAND signtool "sign"
       "/t" "http://timestamp.digicert.com"
       "/a" "$<TARGET_FILE:${PROJECT_NAME}>")
+elseif(APPLE)
+  set(MAC_APP_ID_IDENTITY $ENV{SITALA_CODESIGN_IDENTITY})
+  add_custom_target(SignedBinary
+    DEPENDS ${PROJECT_NAME}
+    COMMAND codesign
+      "-s" ${MAC_APP_ID_IDENTITY}
+      "--options=runtime"
+      "--force"
+      "$<TARGET_FILE:${PROJECT_NAME}>"
+    VERBATIM)
 endif()
