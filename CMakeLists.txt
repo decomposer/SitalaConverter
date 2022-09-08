@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 add_subdirectory(JUCE)
 
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
 set(CMAKE_OSX_ARCHITECTURES "arm64" "x86_64")
 
 project(SitalaImporter)
