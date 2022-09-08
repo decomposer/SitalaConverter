@@ -63,12 +63,39 @@ if(WIN32)
       "/a" "$<TARGET_FILE:${PROJECT_NAME}>")
 elseif(APPLE)
   set(MAC_APP_ID_IDENTITY $ENV{SITALA_CODESIGN_IDENTITY})
+  set(BUNDLE_ID "de.decomposer.${PROJECT_NAME}")
+
   add_custom_target(SignedBinary
     DEPENDS ${PROJECT_NAME}
     COMMAND codesign
       "-s" ${MAC_APP_ID_IDENTITY}
       "--options=runtime"
       "--force"
-      "$<TARGET_FILE:${PROJECT_NAME}>"
+      "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
     VERBATIM)
-endif()
+
+  add_custom_target(DmgPackage
+    DEPENDS SignedBinary
+    COMMAND
+      "${CMAKE_COMMAND}" "-E" "remove_directory" "DmgContents"
+    COMMAND
+      "${CMAKE_COMMAND}" "-E" "make_directory" "DmgContents"
+    COMMAND
+      "cp" "-R" "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>" "DmgContents/"
+    COMMAND
+      "osascript" "-e"
+      "tell application \"Finder\" to make alias file to POSIX file \"/Applications\" at POSIX file \"${CMAKE_CURRENT_BINARY_DIR}/DmgContents\""
+    VERBATIM
+    COMMAND
+      "${CMAKE_COMMAND}" "-E" "remove" "${PROJECT_NAME}.dmg"
+    COMMAND
+      "hdiutil" "create" "${PROJECT_NAME}.dmg"
+      "-fs" "HFS+"
+      "-volname" "${PROJECT_NAME}"
+      "-srcfolder" "DmgContents"
+    COMMAND codesign
+      "-s" ${MAC_APP_ID_IDENTITY}
+      "--force"
+      "${PROJECT_NAME}.dmg"
+     VERBATIM)
+ endif()
