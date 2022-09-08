@@ -273,6 +273,9 @@ void MainComponent::setDragging(bool d)
 
 void MainComponent::setFilesToConvert(const Array<File> &files)
 {
+    m_resultsModel.clear();
+    m_results.updateContent();
+
     m_abletonKits = files;
     m_fileCountLabel.setText(String::formatted(TRANS("%i kit(s) selected"), files.size()),
                              dontSendNotification);
@@ -281,9 +284,6 @@ void MainComponent::setFilesToConvert(const Array<File> &files)
 
 void MainComponent::convert()
 {
-    m_resultsModel.clear();
-    m_results.updateContent();
-
     Array<File> sitalaKits;
 
     for(auto file : m_abletonKits)
@@ -316,7 +316,7 @@ void MainComponent::convert()
         }
 
         SitalaKitGenerator generator(sitalaKit);
-        generator.setSamples(reader.getSamples(),
+        generator.setSamples(samples,
                              (m_embedButton.getToggleState() ?
                               SitalaKitGenerator::Embedded :
                               SitalaKitGenerator::Referenced));
@@ -324,7 +324,14 @@ void MainComponent::convert()
 
         if(generator.run())
         {
-            addResult(sitalaKitFileName);
+            if(samples.size() <= 16)
+            {
+                addResult(sitalaKitFileName);
+            }
+            else
+            {
+                addResult(sitalaKitFileName, String::formatted("16 of %i samples added", samples.size()));
+            }
         }
         else
         {
