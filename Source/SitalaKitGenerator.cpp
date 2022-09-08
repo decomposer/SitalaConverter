@@ -38,7 +38,7 @@ bool SitalaKitGenerator::run()
 
         if(!file.exists())
         {
-            m_error = "Sample " + file.getFullPathName() + " not found";
+            m_error = "Sample " + file.getFileName() + " not found";
             return false;
         }
 
@@ -63,7 +63,7 @@ bool SitalaKitGenerator::run()
         {
             if(AbletonDeviceGroupReader::isSampleEncrypted(file))
             {
-                m_error = "Sample " + file.getFullPathName() + " is encrypted";
+                m_error = "Sample " + file.getFileName() + " is encrypted";
             }
             else
             {

@@ -23,6 +23,31 @@ class MainComponent : public LayoutManagedComponent, public FileDragAndDropTarge
         ToggleButton(const String &text = String(), bool checked = false);
     };
 
+    class ResultsModel : public TableListBoxModel
+    {
+    public:
+        ResultsModel();
+        void addResult(const String &file, const String &result = String());
+        void clear();
+    protected:
+        int getNumRows() override;
+        String getText(int row, int column);
+        String getCellTooltip(int row, int column) override;
+        void paintRowBackground(Graphics &g,
+                                int rowNumber,
+                                int width,
+                                int height,
+                                bool rowIsSelected) override;
+        void paintCell(Graphics &g,
+                       int rowNumber,
+                       int columnId,
+                       int width,
+                       int height,
+                       bool rowIsSelected) override;
+    private:
+        Array<std::pair<String, String>> m_results;
+    };
+
 public:
     MainComponent();
     ~MainComponent() override;
@@ -37,7 +62,8 @@ public:
 private:
     void setDragging(bool d);
     void setFilesToConvert(const Array<File> &files);
-    Array<File> convert() const;
+    void convert();
+    void addResult(const String &file, const String &result = String());
 
     ApplicationProperties m_preferences;
 
@@ -53,6 +79,9 @@ private:
 
     Label m_vendorLabel;
     Label m_vendorInput;
+
+    ResultsModel m_resultsModel;
+    TableListBox m_results;
 
     TextButton m_convertButton;
 

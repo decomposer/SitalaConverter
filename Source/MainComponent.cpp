@@ -2,6 +2,62 @@
 #include "AbletonDeviceGroupReader.h"
 #include "SitalaKitGenerator.h"
 
+MainComponent::ResultsModel::ResultsModel()
+{
+
+}
+
+void MainComponent::ResultsModel::addResult(const String &file, const String &result)
+{
+    m_results.add(std::make_pair(file, result));
+}
+
+void MainComponent::ResultsModel::clear()
+{
+    m_results.clear();
+}
+
+int MainComponent::ResultsModel::getNumRows()
+{
+    return m_results.size();
+}
+
+void MainComponent::ResultsModel::paintRowBackground(Graphics &g,
+                                                     int /* rowNumber */,
+                                                     int /* width */,
+                                                     int /* height */,
+                                                     bool /* rowIsSelected */)
+{
+    g.fillAll(juce::Colours::lightblue);
+}
+
+String MainComponent::ResultsModel::getText(int row, int column)
+{
+    auto text = column == 0 ? m_results[row].first : m_results[row].second;
+
+    if(column == 1 && text.isEmpty())
+    {
+        text = TRANS("Success");
+    }
+
+    return text;
+}
+
+String MainComponent::ResultsModel::getCellTooltip(int row, int column)
+{
+    return getText(row, column);
+}
+
+void MainComponent::ResultsModel::paintCell(Graphics &g,
+                                            int rowNumber,
+                                            int columnId,
+                                            int width,
+                                            int height,
+                                            bool /* rowIsSelected */)
+{
+    g.drawText(getText(rowNumber, columnId), 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+}
+
 MainComponent::Label::Label(const String &text) :
     juce::Label(String(), text),
     m_textColour(findColour(Label::textColourId))
@@ -9,7 +65,6 @@ MainComponent::Label::Label(const String &text) :
     setJustificationType(Justification::verticallyCentred);
     setMinimumHorizontalScale(1.0f);
 }
-
 
 LayoutManager::Constraints MainComponent::Label::getSizeHint(
     LayoutManager::Orientation orientation) const
@@ -49,6 +104,7 @@ MainComponent::MainComponent() :
     m_specificDirectoryButton(TRANS("Put Sitala kits into a specific folder")),
     m_directoryLabel(noneSelected),
     m_vendorLabel(TRANS("Vendor name for kits:")),
+    m_results(String(), &m_resultsModel),
     m_convertButton(TRANS("Convert!"))
 {
     PropertiesFile::Options preferenceOptions;
@@ -56,7 +112,7 @@ MainComponent::MainComponent() :
     preferenceOptions.osxLibrarySubFolder = "Preferences";
     m_preferences.setStorageParameters(preferenceOptions);
 
-    setSize(400, 400);
+    setSize(800, 800);
     setBorderSizes(BorderSize(10));
 
     addSpacer();
@@ -126,12 +182,20 @@ MainComponent::MainComponent() :
 
     addSpacer();
 
+    appendComponent(&m_results, Constraints::fixed(400));
+    auto column = 0;
+    m_results.getHeader().addColumn(TRANS("File"), column++, m_results.getWidth() / 2,
+                                    30, -1, TableHeaderComponent::notSortable);
+    m_results.getHeader().addColumn(TRANS("Result"), column++, m_results.getWidth() / 2,
+                                    30, -1, TableHeaderComponent::notSortable);
+
+    addSpacer();
+
     m_convertButton.setEnabled(false);
     appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
     m_convertButton.onClick = [this] {
         m_preferences.getUserSettings()->setValue("vendor", m_vendorInput.getText());
-        auto kits = convert();
-        kits.getFirst().revealToUser();
+        convert();
     };
 
     addSpacer();
@@ -215,8 +279,11 @@ void MainComponent::setFilesToConvert(const Array<File> &files)
     m_convertButton.setEnabled(true);
 }
 
-Array<File> MainComponent::convert() const
+void MainComponent::convert()
 {
+    m_resultsModel.clear();
+    m_results.updateContent();
+
     Array<File> sitalaKits;
 
     for(auto file : m_abletonKits)
@@ -238,6 +305,15 @@ Array<File> MainComponent::convert() const
                          ".sitala";
 
         sitalaKits.add(sitalaKit);
+        auto sitalaKitFileName = sitalaKits.getLast().getFileName();
+
+        auto samples = reader.getSamples();
+
+        if(samples.size() == 0)
+        {
+            addResult(sitalaKitFileName, TRANS("No samples found"));
+            continue;
+        }
 
         SitalaKitGenerator generator(sitalaKit);
         generator.setSamples(reader.getSamples(),
@@ -246,11 +322,19 @@ Array<File> MainComponent::convert() const
                               SitalaKitGenerator::Referenced));
         generator.setVendor(m_vendorInput.getText());
 
-        if(!generator.run())
+        if(generator.run())
         {
-            DBG(generator.getError());
+            addResult(sitalaKitFileName);
+        }
+        else
+        {
+            addResult(sitalaKitFileName, generator.getError());
         }
     }
+}
 
-    return sitalaKits;
+void MainComponent::addResult(const String &file, const String &result)
+{
+    m_resultsModel.addResult(file, result);
+    m_results.updateContent();
 }
