@@ -38,7 +38,7 @@ bool SitalaKitGenerator::run()
 
         if(!file.exists())
         {
-            DBG("Sample " << file.getFullPathName() << " not found");
+            m_error = "Sample " + file.getFullPathName() + " not found";
             return false;
         }
 
@@ -63,10 +63,13 @@ bool SitalaKitGenerator::run()
         {
             if(AbletonDeviceGroupReader::isSampleEncrypted(file))
             {
-                DBG("Sample " << file.getFullPathName() << " encrypted");
+                m_error = "Sample " + file.getFullPathName() + " is encrypted";
+            }
+            else
+            {
+                m_error = "Couldn't read audio from " + file.getFullPathName();
             }
 
-            DBG("Couldn't create reader for " << file.getFullPathName());
             return false;
         }
 
@@ -174,4 +177,9 @@ bool SitalaKitGenerator::run()
     fileBuilder.writeToStream(zipOut, nullptr);
 
     return true;
+}
+
+String SitalaKitGenerator::getError() const
+{
+    return m_error;
 }

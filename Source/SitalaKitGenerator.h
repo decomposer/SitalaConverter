@@ -17,6 +17,7 @@ public:
     void setVendor(const String &vendor);
 
     bool run();
+    String getError() const;
 
 private:
     AudioFormatManager m_formatManager;
@@ -24,4 +25,5 @@ private:
     std::vector<File> m_samples;
     SampleReferences m_references = Embedded;
     String m_vendor;
+    String m_error;
 };

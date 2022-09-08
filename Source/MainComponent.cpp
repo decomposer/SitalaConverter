@@ -245,7 +245,11 @@ Array<File> MainComponent::convert() const
                               SitalaKitGenerator::Embedded :
                               SitalaKitGenerator::Referenced));
         generator.setVendor(m_vendorInput.getText());
-        generator.run();
+
+        if(!generator.run())
+        {
+            DBG(generator.getError());
+        }
     }
 
     return sitalaKits;
