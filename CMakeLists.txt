@@ -6,6 +6,7 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
 set(CMAKE_OSX_ARCHITECTURES "arm64" "x86_64")
 
 project(SitalaImporter)
+set(apple_bundle_id "de.decomposer.${PROJECT_NAME}")
 
 set(CMAKE_PROJECT_VERSION "0.1")
 
@@ -13,6 +14,7 @@ juce_add_gui_app("${PROJECT_NAME}"
   PRODUCT_NAME "${PROJECT_NAME}"
   VERSION "0.1"
   BUILD_VERSION "${PROJECT_VERSION}"
+  BUNDLE_ID "${apple_bundle_id}"
 )
 
 juce_generate_juce_header("${PROJECT_NAME}")
@@ -64,7 +66,7 @@ if(WIN32)
       "/a" "$<TARGET_FILE:${PROJECT_NAME}>")
 elseif(APPLE)
   set(MAC_APP_ID_IDENTITY $ENV{SITALA_CODESIGN_IDENTITY})
-  set(BUNDLE_ID "de.decomposer.${PROJECT_NAME}")
+  set(MAC_NOTARIZATION_ACCOUNT $ENV{SITALA_NOTARIZATION_ACCOUNT})
 
   add_custom_target(SignedBinary
     DEPENDS ${PROJECT_NAME}
@@ -99,4 +101,22 @@ elseif(APPLE)
       "--force"
       "${PROJECT_NAME}.dmg"
      VERBATIM)
+
+  add_custom_target(NotarizedPackage
+     COMMENT "Run 'xcrun stapler staple ${PROJECT_NAME}.dmg' when notarization succeeded"
+     COMMAND
+       "/usr/bin/ditto" "-c" "-k" "--keepParent"
+       "${PROJECT_NAME}.dmg"
+       "${PROJECT_NAME}.zip"
+     COMMAND
+       "xcrun" "altool" "--notarize-app"
+       "--primary-bundle-id" "${apple_bundle_id}.notarization"
+       "--username" "${MAC_NOTARIZATION_ACCOUNT}"
+       "--password" "@keychain:decomposer_apple_app_specific"
+       "--file" "${PROJECT_NAME}.zip"
+     COMMAND
+       "xcrun" "altool" "--notarization-history" "0"
+       "-u" "${MAC_NOTARIZATION_ACCOUNT}"
+       "-p" "@keychain:decomposer_apple_app_specific"
+    VERBATIM)
  endif()
