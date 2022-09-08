@@ -12,6 +12,27 @@ bool AbletonDeviceGroupReader::isAbletonKit(const File &file)
     return file.getFileExtension() == ADG_EXTENSION;
 }
 
+bool AbletonDeviceGroupReader::isSampleEncrypted(const File &file)
+{
+    FileInputStream input(file);
+
+    if(!input.setPosition(24))
+    {
+        return false;
+    }
+
+    constexpr std::array<char, 4> identifier = { 'a', 'b', 'l', 'e' };
+
+    std::array<char , identifier.size()> buffer;
+
+    if(input.read(&buffer[0], identifier.size()) != identifier.size())
+    {
+        return false;
+    }
+
+    return identifier == buffer;
+}
+
 std::vector<File> AbletonDeviceGroupReader::getSamples()
 {
     jassert(m_source.exists());

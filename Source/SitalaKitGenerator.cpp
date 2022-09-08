@@ -1,5 +1,6 @@
-#include "SitalaKitGenerator.h"
 #include "Config.h"
+#include "SitalaKitGenerator.h"
+#include "AbletonDeviceGroupReader.h"
 
 static constexpr auto ZipLevel = 9;
 
@@ -60,6 +61,11 @@ bool SitalaKitGenerator::run()
 
         if(!reader)
         {
+            if(AbletonDeviceGroupReader::isSampleEncrypted(file))
+            {
+                DBG("Sample " << file.getFullPathName() << " encrypted");
+            }
+
             DBG("Couldn't create reader for " << file.getFullPathName());
             return false;
         }
