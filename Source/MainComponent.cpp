@@ -7,9 +7,9 @@ MainComponent::ResultsModel::ResultsModel()
 
 }
 
-void MainComponent::ResultsModel::addResult(const String &file, const String &result)
+void MainComponent::ResultsModel::addResult(const Result &result)
 {
-    m_results.add(std::make_pair(file, result));
+    m_results.add(result);
 }
 
 void MainComponent::ResultsModel::clear()
@@ -33,7 +33,7 @@ void MainComponent::ResultsModel::paintRowBackground(Graphics &g,
 
 String MainComponent::ResultsModel::getText(int row, int column)
 {
-    auto text = column == 0 ? m_results[row].first : m_results[row].second;
+    auto text = column == 0 ? m_results[row].source.getFileName() : m_results[row].message;
 
     if(column == 1 && text.isEmpty())
     {
@@ -56,6 +56,24 @@ void MainComponent::ResultsModel::paintCell(Graphics &g,
                                             bool /* rowIsSelected */)
 {
     g.drawText(getText(rowNumber, columnId), 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+}
+
+void MainComponent::ResultsModel::cellDoubleClicked(
+    int rowNumber, int, const MouseEvent &)
+{
+    if(rowNumber < 0 || rowNumber >= m_results.size())
+    {
+        return;
+    }
+
+    const auto &output = m_results[rowNumber].output;
+
+    if(!output.exists())
+    {
+        return;
+    }
+
+    m_results[rowNumber].output.revealToUser();
 }
 
 MainComponent::Label::Label(const String &text) :
@@ -301,13 +319,12 @@ void MainComponent::convert()
                          ".sitala";
 
         sitalaKits.add(sitalaKit);
-        auto sitalaKitFileName = sitalaKits.getLast().getFileName();
 
         auto samples = reader.getSamples();
 
         if(samples.size() == 0)
         {
-            addResult(sitalaKitFileName, TRANS("No samples found"));
+            addResult(Result { file, File(), TRANS("No samples found") });
             continue;
         }
 
@@ -322,22 +339,23 @@ void MainComponent::convert()
         {
             if(samples.size() <= 16)
             {
-                addResult(sitalaKitFileName);
+                addResult(Result { file, File(sitalaKit), String() });
             }
             else
             {
-                addResult(sitalaKitFileName, String::formatted("16 of %i samples added", samples.size()));
+                addResult(Result { file, File(sitalaKit),
+                                   String::formatted("16 of %i samples added", samples.size()) });
             }
         }
         else
         {
-            addResult(sitalaKitFileName, generator.getError());
+            addResult(Result { file, File(), generator.getError() });
         }
     }
 }
 
-void MainComponent::addResult(const String &file, const String &result)
+void MainComponent::addResult(const Result &result)
 {
-    m_resultsModel.addResult(file, result);
+    m_resultsModel.addResult(result);
     m_results.updateContent();
 }

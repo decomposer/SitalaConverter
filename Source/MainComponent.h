@@ -23,11 +23,18 @@ class MainComponent : public LayoutManagedComponent, public FileDragAndDropTarge
         ToggleButton(const String &text = String(), bool checked = false);
     };
 
+    struct Result
+    {
+        File source;
+        File output;
+        String message;
+    };
+
     class ResultsModel : public TableListBoxModel
     {
     public:
         ResultsModel();
-        void addResult(const String &file, const String &result = String());
+        void addResult(const Result &result);
         void clear();
     protected:
         int getNumRows() override;
@@ -44,8 +51,9 @@ class MainComponent : public LayoutManagedComponent, public FileDragAndDropTarge
                        int width,
                        int height,
                        bool rowIsSelected) override;
+        void cellDoubleClicked(int rowNumber, int columnId, const MouseEvent &) override;
     private:
-        Array<std::pair<String, String>> m_results;
+        Array<Result> m_results;
     };
 
 public:
@@ -63,7 +71,7 @@ private:
     void setDragging(bool d);
     void setFilesToConvert(const Array<File> &files);
     void convert();
-    void addResult(const String &file, const String &result = String());
+    void addResult(const Result &result);
 
     ApplicationProperties m_preferences;
 
