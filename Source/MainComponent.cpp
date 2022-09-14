@@ -112,10 +112,8 @@ MainComponent::MainComponent() :
     preferenceOptions.osxLibrarySubFolder = "Preferences";
     m_preferences.setStorageParameters(preferenceOptions);
 
-    setSize(800, 800);
+    setSize(400, 600);
     setBorderSizes(BorderSize(10));
-
-    addSpacer();
 
     m_selectButton.setButtonText(TRANS("Select (or drop) Ablton Live kits..."));
     appendComponent(&m_selectButton, Constraints::fixed(Drawing::ButtonHeight));
@@ -172,24 +170,19 @@ MainComponent::MainComponent() :
         }
     };
 
-    addSpacer();
-
     appendComponent(&m_vendorLabel);
     m_vendorInput.setEditable(true);
     m_vendorInput.setColour(juce::Label::outlineColourId, juce::Colours::darkgrey);
     m_vendorInput.setText(m_preferences.getUserSettings()->getValue("vendor"), dontSendNotification);
     appendComponent(&m_vendorInput);
 
-    addSpacer();
+    appendComponent(&m_results, Constraints().setMinimum(Unit::Absolute, 200));
 
-    appendComponent(&m_results, Constraints::fixed(400));
     auto column = 0;
     m_results.getHeader().addColumn(TRANS("File"), column++, m_results.getWidth() / 2,
                                     30, -1, TableHeaderComponent::notSortable);
     m_results.getHeader().addColumn(TRANS("Result"), column++, m_results.getWidth() / 2,
                                     30, -1, TableHeaderComponent::notSortable);
-
-    addSpacer();
 
     m_convertButton.setEnabled(false);
     appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
@@ -197,8 +190,6 @@ MainComponent::MainComponent() :
         m_preferences.getUserSettings()->setValue("vendor", m_vendorInput.getText());
         convert();
     };
-
-    addSpacer();
 }
 
 MainComponent::~MainComponent()
