@@ -184,6 +184,8 @@ MainComponent::MainComponent() :
     m_results.getHeader().addColumn(TRANS("Result"), column++, m_results.getWidth() / 2,
                                     30, -1, TableHeaderComponent::notSortable);
 
+    m_results.setVisible(false);
+
     m_convertButton.setEnabled(false);
     appendComponent(&m_convertButton, Constraints::fixed(Drawing::ButtonHeight));
     m_convertButton.onClick = [this] {
@@ -264,6 +266,7 @@ void MainComponent::setDragging(bool d)
 
 void MainComponent::setFilesToConvert(const Array<File> &files)
 {
+    m_results.setVisible(false);
     m_resultsModel.clear();
     m_results.updateContent();
 
@@ -276,6 +279,8 @@ void MainComponent::setFilesToConvert(const Array<File> &files)
 void MainComponent::convert()
 {
     Array<File> sitalaKits;
+
+    m_results.setVisible(true);
 
     for(auto file : m_abletonKits)
     {
