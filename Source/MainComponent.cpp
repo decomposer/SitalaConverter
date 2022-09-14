@@ -33,14 +33,12 @@ void MainComponent::ResultsModel::paintRowBackground(Graphics &g,
 
 String MainComponent::ResultsModel::getText(int row, int column)
 {
-    auto text = column == 0 ? m_results[row].source.getFileName() : m_results[row].message;
-
-    if(column == 1 && text.isEmpty())
+    if(column == 1)
     {
-        text = TRANS("Success");
+        return column == 1 ? m_results[row].source.getFileName() : m_results[row].message;
     }
 
-    return text;
+    return m_results[row].message.isEmpty() ? TRANS("Success") : m_results[row].message;
 }
 
 String MainComponent::ResultsModel::getCellTooltip(int row, int column)
@@ -196,7 +194,7 @@ MainComponent::MainComponent() :
 
     appendComponent(&m_results, Constraints().setMinimum(Unit::Absolute, 200));
 
-    auto column = 0;
+    auto column = 1;
     m_results.getHeader().addColumn(TRANS("File"), column++, m_results.getWidth() / 2,
                                     30, -1, TableHeaderComponent::notSortable);
     m_results.getHeader().addColumn(TRANS("Result"), column++, m_results.getWidth() / 2,
