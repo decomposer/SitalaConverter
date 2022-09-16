@@ -51,7 +51,7 @@ std::vector<File> AbletonDeviceGroupReader::getSamples()
     std::vector<File> samples;
 
     processElements(root.get(), "SampleRef", [this, &samples](const XmlElement *e) {
-        processSampleRef(e, samples);
+        readRelativePathFromElement(e, &samples);
     });
 
     std::map<int, File> sorted;
@@ -107,21 +107,22 @@ static File resolveRelative(File root, const String &name)
     return resolveRelative(root.getParentDirectory(), name);
 }
 
-void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
-                                                std::vector<File> &samples)
+bool AbletonDeviceGroupReader::readRelativePathFromElement(
+    const XmlElement *sampleRef,
+    std::vector<File> *samples)
 {
     const auto fileRef = sampleRef->getChildByName("FileRef");
 
     if(!fileRef)
     {
-        return;
+        return false;
     }
 
     const auto relativePath = fileRef->getChildByName("RelativePath");
 
     if(!relativePath)
     {
-        return;
+        return false;
     }
 
     String path;
@@ -162,5 +163,7 @@ void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
         path += name;
     }
 
-    samples.push_back(resolveRelative(m_source.getParentDirectory(), path));
+    samples->push_back(resolveRelative(m_source.getParentDirectory(), path));
+
+    return true;
 }
