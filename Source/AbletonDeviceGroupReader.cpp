@@ -93,7 +93,7 @@ static File resolveRelative(File root, const String &name)
 {
     auto file = root.getChildFile(name);
 
-    if(file.exists())
+    if(file.existsAsFile())
     {
         return file;
     }
@@ -110,40 +110,57 @@ static File resolveRelative(File root, const String &name)
 void AbletonDeviceGroupReader::processSampleRef(const XmlElement *sampleRef,
                                                 std::vector<File> &samples)
 {
-    auto fileRef = sampleRef->getChildByName("FileRef");
-    if(fileRef)
-    {
-        String path;
+    const auto fileRef = sampleRef->getChildByName("FileRef");
 
-        auto relativePath = fileRef->getChildByName("RelativePath");
-        if(relativePath)
+    if(!fileRef)
+    {
+        return;
+    }
+
+    const auto relativePath = fileRef->getChildByName("RelativePath");
+
+    if(!relativePath)
+    {
+        return;
+    }
+
+    String path;
+
+    if(relativePath->hasAttribute("Value")  &&
+       !relativePath->getStringAttribute("Value").isEmpty())
+    {
+        path = relativePath->getStringAttribute("Value");
+    }
+    else
+    {
+        for(auto i = 0; i < relativePath->getNumChildElements(); i++)
         {
-            for(auto i = 0; i < relativePath->getNumChildElements(); i++)
+            auto pathCrumb = relativePath->getChildElement(i);
+
+            if(pathCrumb->getTagName() == "RelativePathElement" &&
+               pathCrumb->hasAttribute("Dir"))
             {
-                auto pathCrumb = relativePath->getChildElement(i);
-                if(pathCrumb->getTagName() == "RelativePathElement"
-                   && pathCrumb->hasAttribute("Dir"))
+                auto dir = pathCrumb->getStringAttribute("Dir");
+
+                if(dir.isEmpty())
                 {
-                    auto dir = pathCrumb->getStringAttribute("Dir");
-                    if(dir.isEmpty())
-                    {
-                        path += "../";
-                    }
-                    else
-                    {
-                        path += dir + "/";
-                    }
+                    path += "../";
+                }
+                else
+                {
+                    path += dir + "/";
                 }
             }
         }
-
-        auto nameElement = fileRef->getChildByName("Name");
-        if(nameElement)
-        {
-            auto name = nameElement->getStringAttribute("Value");
-            path += name;
-        }
-
-        samples.push_back(resolveRelative(m_source, path));
     }
+
+    auto nameElement = fileRef->getChildByName("Name");
+
+    if(nameElement)
+    {
+        auto name = nameElement->getStringAttribute("Value");
+        path += name;
+    }
+
+    samples.push_back(resolveRelative(m_source.getParentDirectory(), path));
 }
