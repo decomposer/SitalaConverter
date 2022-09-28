@@ -14,6 +14,7 @@ public:
     static bool isSampleEncrypted(const File &file);
 
 private:
+    static bool isCompressed(InputStream *stream);
     void processElements(const XmlElement *parent, const String &tag,
                          const std::function<void(const XmlElement *)> &processor);
     bool readRelativePathFromElement(const XmlElement *sampleRef, std::vector<File> *samples);

@@ -33,19 +33,48 @@ bool AbletonDeviceGroupReader::isSampleEncrypted(const File &file)
     return identifier == buffer;
 }
 
+bool AbletonDeviceGroupReader::isCompressed(InputStream *stream)
+{
+    auto startingPoint = stream->getPosition();
+
+    constexpr std::array<unsigned char, 2> identifier = { 0x1f, 0x8b };
+    std::array<unsigned char, 2> buffer;
+
+    stream->setPosition(0);
+    stream->read(&buffer[0], buffer.size());
+
+    auto matches = false;
+
+    if(identifier == buffer)
+    {
+        matches = true;
+    }
+
+    stream->setPosition(startingPoint);
+
+    return matches;
+}
+
 std::vector<File> AbletonDeviceGroupReader::getSamples()
 {
     jassert(m_source.exists());
 
     FileInputStream inFile(m_source);
 
-    GZIPDecompressorInputStream streamIn(&inFile, false,
-        GZIPDecompressorInputStream::Format::gzipFormat);
+    String xml;
 
-    jassert(!streamIn.isExhausted());
-    const auto str = streamIn.readEntireStreamAsString();
+    if(isCompressed(&inFile))
+    {
+        GZIPDecompressorInputStream compressed(
+            &inFile, false, GZIPDecompressorInputStream::Format::gzipFormat);
+        xml = compressed.readEntireStreamAsString();
+    }
+    else
+    {
+        xml = inFile.readEntireStreamAsString();
+    }
 
-    XmlDocument doc(str);
+    XmlDocument doc(xml);
     std::unique_ptr<XmlElement> root(doc.getDocumentElement());
 
     std::vector<File> samples;
