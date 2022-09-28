@@ -30,17 +30,18 @@ bool SitalaKitGenerator::run()
     for(auto i = 0; static_cast<unsigned long>(i) < m_samples.size(); i++)
     {
         const auto &file = m_samples[static_cast<unsigned long>(i)];
-        auto relative = file.getRelativePathFrom(m_destination.getParentDirectory());
-
-        ValueTree node("sound");
-        node.setProperty("slot", i, nullptr);
-        node.setProperty("name", file.getFileNameWithoutExtension(), nullptr);
 
         if(!file.exists())
         {
             m_error = "Sample " + file.getFileName() + " not found";
             return false;
         }
+
+        auto relative = file.getRelativePathFrom(m_destination.getParentDirectory());
+
+        ValueTree node("sound");
+        node.setProperty("slot", i, nullptr);
+        node.setProperty("name", file.getFileNameWithoutExtension(), nullptr);
 
         if(m_references == Embedded)
         {

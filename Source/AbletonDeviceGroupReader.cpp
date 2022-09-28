@@ -192,7 +192,10 @@ bool AbletonDeviceGroupReader::readRelativePathFromElement(
         path += name;
     }
 
-    samples->push_back(resolveRelative(m_source.getParentDirectory(), path));
+    auto resolved = resolveRelative(m_source.getParentDirectory(), path);
+    samples->push_back(resolved.exists() ?
+                       resolved :
+                       m_source.getParentDirectory().getChildFile(path));
 
     return true;
 }
