@@ -33,7 +33,7 @@ bool AbletonDeviceGroupReader::isSampleEncrypted(const File &file)
     return identifier == buffer;
 }
 
-bool AbletonDeviceGroupReader::isCompressed(InputStream *stream)
+static bool isCompressed(InputStream *stream)
 {
     auto startingPoint = stream->getPosition();
 
